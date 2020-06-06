@@ -16,7 +16,7 @@ dependencies {
 ```
 <h1>Nordan Simply Pages</h1>
 
-<h3>About Us</h3>
+<h3>About Us Page Style</h3>
 
 ```diff
         View simplyPage = new NordanSimplyPage(this)
@@ -48,7 +48,7 @@ dependencies {
                         .create();
                 setContentView(simplyPage);
 ```
-<h3>Settings Page</h3>
+<h3>Settings Page Style</h3>
 
 ```diff
            TODO
