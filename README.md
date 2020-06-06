@@ -54,7 +54,6 @@ dependencies {
 
 ![Screenshots](https://github.com/Dan629pl/NordanSimplyPage/blob/master/img/screenshot_side_hr.png)
 
-![Screenshots](https://github.com/Dan629pl/NordanSimplyPage/blob/master/img/screenshot_side.png)
 <h3>Settings Page Style</h3>
 
 ```diff
