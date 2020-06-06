@@ -60,31 +60,45 @@ dependencies {
 
 ```diff
                ...
-             View languagePage = new NordanSimplyPage(this)
-                           .addGroup(getString(R.string.choose_lang), R.drawable.langugage_icon, R.color.grayFontColor)
-                           .addItem(createEngItem())
-                           .addItem(createPolItem())
-                           .create();
-                   setContentView(languagePage);
+               View settingPage = new NordanSimplyPage(this)
+                            .addGroup(getString(R.string.account), R.drawable.account_icon, R.color.rec)
+                            .addAccountItem(createAccountElement())
+                            .addItem(createSignElement())
+                            .addItem(createResetProgressElement())
+                            .addGroup(getString(R.string.language_title), R.drawable.langugage_icon, R.color.rec)
+                            .addItem(createLanguageElement())
+                            .create();
+                    setContentView(settingPage);
                ...
 
-    private NordanPageElement createPolItem() {
-        return NordanPageElement.builder()
-                .title(getString(R.string.polish))
-                .leftSideIconDrawable(R.drawable.pl_flag)
-                .rightSideIconDrawable(currentLanguage.equals("pl") ? R.drawable.ic_twotone_check_24 : 0)
-                .onClickListener(click -> setLanguage("pl"))
-                .build();
-    }
-
-    private NordanPageElement createEngItem() {
-        return NordanPageElement.builder()
-                .title(getString(R.string.english))
-                .leftSideIconDrawable(R.drawable.eng_flag)
-                .rightSideIconDrawable(currentLanguage.equals("en") ? R.drawable.ic_twotone_check_24 : 0)
-                .onClickListener(click -> setLanguage("en"))
-                .build();
-    }
+    private NordanPageElement createLanguageElement() {
+           return NordanPageElement.builder()
+                  .title(/* PUT HERE YPUR STRING */)
+                  .onClickListener(click -> {/* DO SOMETHING HERE*/})
+                  .build();
+       }
+   
+       private NordanPageElement createResetProgressElement() {
+           return NordanPageElement.builder()
+                   .title(/* PUT HERE YPUR STRING */)
+                   .onClickListener(click -> {/* DO SOMETHING HERE*/})
+                   .build();
+       }
+   
+       private NordanPageElement createSignElement() {
+           return NordanPageElement.builder()
+                   .title(/* PUT HERE YPUR STRING */)
+                   .onClickListener(click -> {/* DO SOMETHING HERE*/})
+                   .build();
+       }
+   
+       private NordanAccountElement createAccountElement() {
+           return NordanAccountElement.builder()
+                             .accountEmail(googleSignInAccount.getEmail())
+                             .accountPhotoUrl(googleSignInAccount.getPhotoUrl())
+                             .accountName(googleSignInAccount.getDisplayName())
+                             .build();
+       }
 ```
 ## Screenshots
 
