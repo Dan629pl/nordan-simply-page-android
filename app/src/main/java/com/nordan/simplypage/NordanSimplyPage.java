@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.textview.MaterialTextView;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.Optional;
 import lombok.NonNull;
 
@@ -61,6 +62,9 @@ public class NordanSimplyPage {
     }
 
     public NordanSimplyPage addSingleBottomItem(NordanBasePageElement basePageElement) {
+        if (Objects.isNull(basePageElement)) {
+            return this;
+        }
         LinearLayout bottomLinear = pageView.findViewById(R.id.single_bottom_element);
         bottomLinear.setVisibility(View.VISIBLE);
         RelativeLayout view = (RelativeLayout) layoutInflater.inflate(R.layout.minimal_item_view, null);
@@ -80,6 +84,9 @@ public class NordanSimplyPage {
     }
 
     public NordanSimplyPage addMinimalItem(NordanBasePageElement basePageElement) {
+        if (Objects.isNull(basePageElement)) {
+            return this;
+        }
         RelativeLayout view = (RelativeLayout) layoutInflater.inflate(R.layout.minimal_item_view, null);
         MaterialTextView textItem = view.findViewById(R.id.item_text);
         textItem.setText(basePageElement.getTitle());
@@ -99,6 +106,9 @@ public class NordanSimplyPage {
     }
 
     public NordanSimplyPage addItem(NordanPageElement pageElement) {
+        if (Objects.isNull(pageElement)) {
+            return this;
+        }
         RelativeLayout view = (RelativeLayout) layoutInflater.inflate(R.layout.standard_item_view, null);
         ImageView imageLeftSide = view.findViewById(R.id.image_left);
         ImageView imageRightSide = view.findViewById(R.id.image_right);
@@ -139,6 +149,9 @@ public class NordanSimplyPage {
     }
 
     public NordanSimplyPage addAccountItem(NordanAccountElement accountElement) {
+        if (Objects.isNull(accountElement)) {
+            return this;
+        }
         RelativeLayout view = (RelativeLayout) layoutInflater.inflate(R.layout.account_item_view, null);
         ImageView accountPhoto = view.findViewById(R.id.account_photo);
         MaterialTextView textAccountName = view.findViewById(R.id.account_name);
