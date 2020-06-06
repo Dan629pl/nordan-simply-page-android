@@ -52,6 +52,8 @@ dependencies {
 
 ![Gif About_Us](https://github.com/Dan629pl/NordanSimplyPage/blob/master/img/page_gif.gif)
 
+
+
 ![Screenshots](https://github.com/Dan629pl/NordanSimplyPage/blob/master/img/screenshot_side_hr.png)
 
 <h3>Settings Page Style</h3>
@@ -87,6 +89,8 @@ dependencies {
 ## Screenshots
 
 ![Gif Settings_Page](https://github.com/Dan629pl/NordanSimplyPage/blob/master/img/setting_page.gif)
+
+
 
 ![Screenshots](https://github.com/Dan629pl/NordanSimplyPage/blob/master/img/settings_hr.png)
 
