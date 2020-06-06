@@ -58,18 +58,18 @@ dependencies {
 
 <h3>Settings Page Style</h3>
 
-```diff
-               ...
-               View settingPage = new NordanSimplyPage(this)
-                            .addGroup(getString(R.string.account), R.drawable.account_icon, R.color.rec)
-                            .addAccountItem(createAccountElement())
-                            .addItem(createSignElement())
-                            .addItem(createResetProgressElement())
-                            .addGroup(getString(R.string.language_title), R.drawable.langugage_icon, R.color.rec)
-                            .addItem(createLanguageElement())
-                            .create();
-                    setContentView(settingPage);
-               ...
+```java
+           //  	...
+                     View settingPage = new NordanSimplyPage(this)
+                             .addGroup(getString(R.string.account), R.drawable.account_icon, R.color.grayFontColor)
+                             .addAccountItem(createAccountElement())
+                             .addItem(createSignElement())
+                             .addItem(createResetProgressElement())
+                             .addGroup(getString(R.string.language_title), R.drawable.langugage_icon, R.color.grayFontColor)
+                             .addItem(createLanguageElement())
+                             .create();
+                     setContentView(settingPage);
+                   //  	...
 
     private NordanPageElement createLanguageElement() {
            return NordanPageElement.builder()
