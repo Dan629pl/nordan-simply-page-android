@@ -48,16 +48,50 @@ dependencies {
                         .create();
                 setContentView(simplyPage);
 ```
-<h3>Settings Page Style</h3>
-
-```diff
-           TODO
-```
 ## Screenshots
 
 ![Gif About_Us](https://github.com/Dan629pl/NordanSimplyPage/blob/master/img/page_gif.gif)
 
-![Screenshots](https://github.com/Dan629pl/NordanSimplyPage/blob/master/img/screenshots.png)
+![Screenshots](https://github.com/Dan629pl/NordanSimplyPage/blob/master/img/screen_long.png)
+
+![Screenshots](https://github.com/Dan629pl/NordanSimplyPage/blob/master/img/screenshot_side.png)
+<h3>Settings Page Style</h3>
+
+```diff
+               ...
+             View languagePage = new NordanSimplyPage(this)
+                           .addGroup(getString(R.string.choose_lang), R.drawable.langugage_icon, R.color.grayFontColor)
+                           .addItem(createEngItem())
+                           .addItem(createPolItem())
+                           .create();
+                   setContentView(languagePage);
+               ...
+
+    private NordanPageElement createPolItem() {
+        return NordanPageElement.builder()
+                .title(getString(R.string.polish))
+                .leftSideIconDrawable(R.drawable.pl_flag)
+                .rightSideIconDrawable(currentLanguage.equals("pl") ? R.drawable.ic_twotone_check_24 : 0)
+                .onClickListener(click -> setLanguage("pl"))
+                .build();
+    }
+
+    private NordanPageElement createEngItem() {
+        return NordanPageElement.builder()
+                .title(getString(R.string.english))
+                .leftSideIconDrawable(R.drawable.eng_flag)
+                .rightSideIconDrawable(currentLanguage.equals("en") ? R.drawable.ic_twotone_check_24 : 0)
+                .onClickListener(click -> setLanguage("en"))
+                .build();
+    }
+```
+## Screenshots
+
+![Gif Settings_Page](https://github.com/Dan629pl/NordanSimplyPage/blob/master/img/setting_page.gif)
+
+![Screenshots](https://github.com/Dan629pl/NordanSimplyPage/blob/master/img/settings_hr.png)
+
+![Screenshots](https://github.com/Dan629pl/NordanSimplyPage/blob/master/img/settings_screen.png)
 
 ## Donation
 If this library  help you reduce time to develop, you can buy me a coffee! :) 
