@@ -57,9 +57,7 @@ dependencies {
 
 ![Gif About_Us](https://github.com/Dan629pl/NordanSimplyPage/blob/master/img/page_gif.gif)
 
-![Screenshot_1](https://github.com/Dan629pl/NordanSimplyPage/blob/master/img/screen_1.jpg)
-
-![Screenshot_2](https://github.com/Dan629pl/NordanSimplyPage/blob/master/img/screen_2.jpg)
+![Screenshots](https://github.com/Dan629pl/NordanSimplyPage/blob/master/img/screenshots.png)
 
 ## Donation
 If this library  help you reduce time to develop, you can buy me a coffee! :) 
