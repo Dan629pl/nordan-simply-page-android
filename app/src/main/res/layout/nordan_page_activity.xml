@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+  <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_above="@id/single_bottom_element">
+    <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:overScrollMode="never"
+      android:scrollbars="none">
+      <LinearLayout
+        android:id="@+id/page_provider"
+        style="@style/PageWrapperStyle" />
+    </ScrollView>
+  </RelativeLayout>
+  <LinearLayout
+    android:id="@+id/single_bottom_element"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:layout_alignParentBottom="true"
+    android:orientation="vertical"
+    android:overScrollMode="never"
+    android:scrollbars="none"
+    android:visibility="invisible" />
+</RelativeLayout>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:minHeight="48dp"
+  android:clickable="true"
+  android:focusable="true">
+  <com.google.android.material.textview.MaterialTextView
+    android:id="@+id/item_text"
+    style="@style/NordanPageItemText"
+    android:minHeight="48dp"
+    android:layout_marginStart="48dp"
+    android:text="@string/item_text" />
+</RelativeLayout>
