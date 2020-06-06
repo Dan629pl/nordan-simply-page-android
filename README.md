@@ -18,7 +18,8 @@ dependencies {
 
 <h3>About Us Page Style</h3>
 
-```diff
+```java
+        ...
         View simplyPage = new NordanSimplyPage(this)
                         .addImageItem(R.drawable.nordan_logo)
                         .addDescriptionItem(R.string.lorem_ipsum)
@@ -47,6 +48,7 @@ dependencies {
                         .addCopyRightsItem()
                         .create();
                 setContentView(simplyPage);
+            ...
 ```
 ## Screenshots
 
@@ -59,7 +61,7 @@ dependencies {
 <h3>Settings Page Style</h3>
 
 ```java
-           //  	...
+             	    ...
                      View settingPage = new NordanSimplyPage(this)
                              .addGroup(getString(R.string.account), R.drawable.account_icon, R.color.grayFontColor)
                              .addAccountItem(createAccountElement())
@@ -69,7 +71,7 @@ dependencies {
                              .addItem(createLanguageElement())
                              .create();
                      setContentView(settingPage);
-                   //  	...
+                     ...
 
     private NordanPageElement createLanguageElement() {
            return NordanPageElement.builder()
