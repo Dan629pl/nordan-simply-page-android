@@ -44,6 +44,8 @@ public class SettingsSample extends AppCompatActivity {
                 .title("SeekBar Element")
                 .subText(" Special subtext")
                 .progress(20)
+                .minValue(1)
+                .maxValue(30)
                 .onSeekBarChangeValueListener(
                         newValue -> Toast.makeText(SettingsSample.this, "New value: " + newValue, Toast.LENGTH_SHORT).show())
                 .build();

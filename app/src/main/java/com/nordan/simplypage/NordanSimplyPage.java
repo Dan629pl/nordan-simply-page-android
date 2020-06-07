@@ -3,6 +3,8 @@ package com.nordan.simplypage;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContextWrapper;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.transition.ChangeBounds;
 import android.transition.TransitionManager;
 import android.util.TypedValue;
@@ -29,6 +31,7 @@ import com.nordan.simplypage.dto.PageElement;
 import com.nordan.simplypage.dto.SeekBarElement;
 import com.nordan.simplypage.dto.SingleChoiceElement;
 import com.nordan.simplypage.dto.SwitchElement;
+import java.text.MessageFormat;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Objects;
@@ -93,22 +96,31 @@ public class NordanSimplyPage {
         MaterialTextView headerTextItem = headerView.findViewById(R.id.item_text);
         MaterialTextView headerSubTextItem = headerView.findViewById(R.id.item_subtext);
         SeekBar seekBar = view.findViewById(R.id.seek_bar);
+        seekBar.setMax(element.getMaxValue());
+        if (VERSION.SDK_INT >= VERSION_CODES.O) {
+            seekBar.setMin(element.getMinValue());
+        }
         headerSubTextItem.setVisibility(View.VISIBLE);
+        headerSubTextItem.setText(MessageFormat.format("{0}{1}", element.getMinValue(), element.getSubText()));
         OnSeekBarChangeValueListener onSeekBarChangeValueListener = element.getOnSeekBarChangeValueListener();
         seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                headerSubTextItem.setText("" + (seekBar.getProgress() == 0 ? 1 : seekBar.getProgress()) + element.getSubText());
+                int value = seekBar.getProgress() < element.getMinValue()
+                        ? element.getMinValue()
+                        : seekBar.getProgress();
+                headerSubTextItem.setText(MessageFormat.format("{0}{1}", value, element.getSubText()));
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
+            public void onStartTrackingTouch(SeekBar seekBar) {/* not implement*/}
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                onSeekBarChangeValueListener.onNewValueSet(seekBar.getProgress() == 0 ? 1 : seekBar.getProgress());
+                int value = seekBar.getProgress() < element.getMinValue()
+                        ? element.getMinValue()
+                        : seekBar.getProgress();
+                onSeekBarChangeValueListener.onNewValueSet(value);
             }
         });
 

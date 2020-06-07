@@ -17,4 +17,8 @@ public class SeekBarElement {
     @NonNull
     private OnSeekBarChangeValueListener onSeekBarChangeValueListener;
     private int progress;
+    @NonNull
+    private int minValue;
+    @NonNull
+    private int maxValue;
 }
