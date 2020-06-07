@@ -3,6 +3,8 @@ package com.nordan.simplypage;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContextWrapper;
+import android.transition.ChangeBounds;
+import android.transition.TransitionManager;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -11,9 +13,17 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import com.bumptech.glide.Glide;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textview.MaterialTextView;
+import com.nordan.simplypage.dto.AccountElement;
+import com.nordan.simplypage.dto.BaseElement;
+import com.nordan.simplypage.dto.PageElement;
+import com.nordan.simplypage.dto.SingleChoiceElement;
+import com.nordan.simplypage.dto.SwitchElement;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Objects;
@@ -43,8 +53,13 @@ public class NordanSimplyPage {
                 .anyMatch(appName::equals);
     }
 
+
     public NordanSimplyPage addEmptyItem() {
-        int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, activity.getResources().getDisplayMetrics());
+        return addEmptyItem(64);
+    }
+
+    public NordanSimplyPage addEmptyItem(int height) {
+        int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, height, activity.getResources().getDisplayMetrics());
         RelativeLayout view = new RelativeLayout(activity);
         LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, px);
         view.setLayoutParams(layoutParams);
@@ -54,14 +69,75 @@ public class NordanSimplyPage {
 
     public NordanSimplyPage addCopyRightsItem() {
         String copyrights = String.format(activity.getString(R.string.copy_right), Calendar.getInstance().get(Calendar.YEAR));
-        NordanBasePageElement copyRightsElement = NordanBasePageElement.builder()
+        BaseElement copyRightsElement = BaseElement.builder()
                 .title(copyrights)
                 .gravity(Gravity.CENTER_HORIZONTAL)
                 .build();
         return addSingleBottomItem(copyRightsElement);
     }
 
-    public NordanSimplyPage addSingleBottomItem(NordanBasePageElement basePageElement) {
+    public NordanSimplyPage addSingleRadioChoiceItem(SingleChoiceElement element) {
+        final boolean[] isResize = {false};
+        LinearLayout view = (LinearLayout) layoutInflater.inflate(R.layout.radio_choice_view, null);
+        RelativeLayout headerView = view.findViewById(R.id.head_item);
+        ImageView headerImageLeftSide = headerView.findViewById(R.id.image_left);
+        ImageView headerImageRightSide = headerView.findViewById(R.id.image_right);
+        MaterialTextView headerTextItem = headerView.findViewById(R.id.item_text);
+        MaterialTextView headerSubTextItem = headerView.findViewById(R.id.item_subtext);
+        RadioGroup radioGroup = view.findViewById(R.id.radio_group);
+        for (int i = 0; i < element.getElements().size(); i++) {
+            RadioButton radioButton = (RadioButton) layoutInflater.inflate(R.layout.radio_button, null);
+            radioButton.setId(i);
+            radioButton.setText(element.getElements().get(i));
+            radioButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                headerSubTextItem.setText(radioButton.getText());
+                headerSubTextItem.setVisibility(View.VISIBLE);
+            });
+            radioGroup.addView(radioButton);
+        }
+        radioGroup.setOnCheckedChangeListener(element.getOnCheckedChangeListener());
+        Optional.of(element.getRightSideIconDrawable())
+                .filter(value -> value != 0)
+                .ifPresent(resId -> {
+                    Glide.with(activity).load(resId).into(headerImageRightSide);
+                    headerImageRightSide.setVisibility(View.VISIBLE);
+                });
+        Optional.of(element.getLeftSideIconDrawable())
+                .filter(value -> value != 0)
+                .map(resId -> {
+                    headerImageLeftSide.setVisibility(View.VISIBLE);
+                    return Glide.with(activity).load(resId).into(headerImageLeftSide);
+                }).orElseGet(() -> Glide.with(activity).load(R.drawable.arrow_down).into(headerImageLeftSide));
+        headerTextItem.setText(element.getTitle());
+        headerView.setOnClickListener(v -> {
+            if (!isResize[0]) {
+                isResize[0] = true;
+                Glide.with(activity).load(R.drawable.arrow_up).into(headerImageLeftSide);
+                TransitionManager.beginDelayedTransition(pageView.findViewById(R.id.page_provider), new ChangeBounds());
+                for (int i = 1; i < view.getChildCount(); i++) {
+                    view.getChildAt(i).setVisibility(View.VISIBLE);
+                }
+            } else {
+                isResize[0] = false;
+                Glide.with(activity).load(R.drawable.arrow_down).into(headerImageLeftSide);
+                TransitionManager.beginDelayedTransition(pageView.findViewById(R.id.page_provider));
+                for (int i = 1; i < view.getChildCount(); i++) {
+                    View childAt = view.getChildAt(i);
+                    TransitionManager.beginDelayedTransition((ViewGroup) childAt);
+                    childAt.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        TypedValue outValue = new TypedValue();
+        activity.getTheme().resolveAttribute(R.attr.selectableItemBackground, outValue, true);
+        headerView.setBackgroundResource(outValue.resourceId);
+        ((LinearLayout) pageView.findViewById(R.id.page_provider)).addView(view);
+        addSeparator();
+        return this;
+    }
+
+    public NordanSimplyPage addSingleBottomItem(BaseElement basePageElement) {
         if (Objects.isNull(basePageElement)) {
             return this;
         }
@@ -83,7 +159,22 @@ public class NordanSimplyPage {
         return this;
     }
 
-    public NordanSimplyPage addMinimalItem(NordanBasePageElement basePageElement) {
+    public NordanSimplyPage addCustomItem(View view) {
+        return addCustomItem(view, 0);
+    }
+
+    public NordanSimplyPage addCustomItem(View customView, int gravity) {
+        RelativeLayout view = (RelativeLayout) layoutInflater.inflate(R.layout.custom_item_view, null);
+        LinearLayout customLinear = view.findViewById(R.id.custom_linear);
+        if (gravity != 0) {
+            view.setGravity(gravity);
+        }
+        customLinear.addView(customView);
+        ((LinearLayout) pageView.findViewById(R.id.page_provider)).addView(view);
+        return this;
+    }
+
+    public NordanSimplyPage addMinimalItem(BaseElement basePageElement) {
         if (Objects.isNull(basePageElement)) {
             return this;
         }
@@ -105,7 +196,25 @@ public class NordanSimplyPage {
         return this;
     }
 
-    public NordanSimplyPage addItem(NordanPageElement pageElement) {
+    public NordanSimplyPage addSwitchItem(SwitchElement switchElement) {
+        RelativeLayout view = (RelativeLayout) layoutInflater.inflate(R.layout.switch_item_view, null);
+        MaterialTextView textItem = view.findViewById(R.id.item_text);
+        MaterialTextView subTextItem = view.findViewById(R.id.item_subtext);
+        SwitchMaterial switchItem = (SwitchMaterial) view.findViewById(R.id.switch_item);
+        switchItem.setOnCheckedChangeListener(switchElement.getOnCheckedChangeListener());
+        textItem.setText(switchElement.getTitle());
+        Optional.ofNullable(switchElement.getSubText())
+                .filter(subText -> !subText.isEmpty())
+                .ifPresent(subText -> {
+                    subTextItem.setText(subText);
+                    subTextItem.setVisibility(View.VISIBLE);
+                });
+        ((LinearLayout) pageView.findViewById(R.id.page_provider)).addView(view);
+        addSeparator();
+        return this;
+    }
+
+    public NordanSimplyPage addItem(PageElement pageElement) {
         if (Objects.isNull(pageElement)) {
             return this;
         }
@@ -148,7 +257,7 @@ public class NordanSimplyPage {
         return this;
     }
 
-    public NordanSimplyPage addAccountItem(NordanAccountElement accountElement) {
+    public NordanSimplyPage addAccountItem(AccountElement accountElement) {
         if (Objects.isNull(accountElement)) {
             return this;
         }
@@ -168,9 +277,17 @@ public class NordanSimplyPage {
     }
 
     public NordanSimplyPage addImageItem(int resourceId) {
+        return addImageItem(resourceId, 200, 200);
+    }
+
+    public NordanSimplyPage addImageItem(int resourceId, int width, int height) {
+        int pxHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, height, activity.getResources().getDisplayMetrics());
+        int pxWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, width, activity.getResources().getDisplayMetrics());
+        RelativeLayout.LayoutParams imageParams = new RelativeLayout.LayoutParams(pxWidth, pxHeight);
         RelativeLayout view = (RelativeLayout) layoutInflater.inflate(R.layout.image_item_view, null);
         ImageView image = view.findViewById(R.id.image);
         Glide.with(activity).load(resourceId).into(image);
+        image.setLayoutParams(imageParams);
         ((LinearLayout) pageView.findViewById(R.id.page_provider)).addView(view);
         return this;
     }

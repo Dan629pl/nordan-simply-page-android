@@ -5,7 +5,8 @@
   android:layout_height="wrap_content"
   android:clickable="true"
   android:focusable="true"
-  android:gravity="center_vertical">
+  android:gravity="center_vertical"
+  android:minHeight="64dp">
 
   <ImageView
     android:id="@+id/image_left"

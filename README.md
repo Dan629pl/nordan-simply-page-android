@@ -11,7 +11,7 @@ Add this to your module's `build.gradle` file:
 ```gradle
 dependencies {
 	...
-    implementation 'com.github.Dan629pl:nordan-simply-page-android:1.0.3'
+    implementation 'com.github.Dan629pl:nordan-simply-page-android:1.0.4'
 }
 ```
 <h1>Nordan Simply Pages</h1>
@@ -63,50 +63,25 @@ dependencies {
 ```java
              	    ...
                      View settingPage = new NordanSimplyPage(this)
-                             .addGroup(getString(R.string.account), R.drawable.account_icon, R.color.grayFontColor)
-                             .addAccountItem(createAccountElement())
-                             .addItem(createSignElement())
-                             .addItem(createResetProgressElement())
-                             .addGroup(getString(R.string.language_title), R.drawable.langugage_icon, R.color.grayFontColor)
-                             .addItem(createLanguageElement())
-                             .create();
-                     setContentView(settingPage);
+                                    .addImageItem(R.drawable.nordan_logo, 300, 75)
+                                    .addGroup(getString(R.string.account_group), R.drawable.account_icon, R.color.gray_font_color)
+                                    .addAccountItem(createAccountElement())
+                                    .addItem(createAccountConfirmedElement())
+                                    .addMinimalItem(createSignOutElement())
+                                    .addEmptyItem(30)
+                                    .addGroup(R.drawable.settings_app_icon, "Application")
+                                    .addSwitchItem(createThemeSwitcherElement())
+                                    .addItem(createTimeRefreshElement())
+                                    .addSingleRadioChoiceItem(createSingleChoiceElement())
+                                    .create();
+                            setContentView(settingPage);
                      ...
-
-    private NordanPageElement createLanguageElement() {
-           return NordanPageElement.builder()
-                  .title(/* PUT HERE YPUR STRING */)
-                  .onClickListener(click -> {/* DO SOMETHING HERE*/})
-                  .build();
-       }
-   
-       private NordanPageElement createResetProgressElement() {
-           return NordanPageElement.builder()
-                   .title(/* PUT HERE YPUR STRING */)
-                   .onClickListener(click -> {/* DO SOMETHING HERE*/})
-                   .build();
-       }
-   
-       private NordanPageElement createSignElement() {
-           return NordanPageElement.builder()
-                   .title(/* PUT HERE YPUR STRING */)
-                   .onClickListener(click -> {/* DO SOMETHING HERE*/})
-                   .build();
-       }
-   
-       private NordanAccountElement createAccountElement() {
-           return NordanAccountElement.builder()
-                             .accountEmail(googleSignInAccount.getEmail())
-                             .accountPhotoUrl(googleSignInAccount.getPhotoUrl())
-                             .accountName(googleSignInAccount.getDisplayName())
-                             .build();
-       }
 ```
 ## Screenshots
 
 ![Gif Settings_Page](https://github.com/Dan629pl/NordanSimplyPage/blob/master/img/setting_page.gif)
 
-
+![Gif Settings_Page2](https://github.com/Dan629pl/NordanSimplyPage/blob/master/img/settings_page2.gif)
 
 ![Screenshots](https://github.com/Dan629pl/NordanSimplyPage/blob/master/img/settings_hr.png)
 
