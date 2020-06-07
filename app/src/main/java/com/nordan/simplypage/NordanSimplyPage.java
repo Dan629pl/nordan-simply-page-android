@@ -174,6 +174,11 @@ public class NordanSimplyPage {
         MaterialTextView headerSubTextItem = headerView.findViewById(R.id.item_subtext);
         checkBox.setOnCheckedChangeListener(element.getOnCheckedChangeListener());
         checkBox.setChecked(element.isChecked());
+        if (element.isChecked()) {
+            for (int i = 1; i < view.getChildCount(); i++) {
+                view.getChildAt(i).setVisibility(View.VISIBLE);
+            }
+        }
         Optional.of(element.getRightSideIconDrawable())
                 .filter(value -> value != 0)
                 .ifPresent(resId -> {
@@ -223,11 +228,14 @@ public class NordanSimplyPage {
         ImageView headerImageRightSide = headerView.findViewById(R.id.image_right);
         MaterialTextView headerTextItem = headerView.findViewById(R.id.item_text);
         MaterialTextView headerSubTextItem = headerView.findViewById(R.id.item_subtext);
+        if (Objects.nonNull(element.getSelectedValue())) {
+            headerSubTextItem.setVisibility(View.VISIBLE);
+            headerSubTextItem.setText(element.getSelectedValue());
+        }
         RadioGroup radioGroup = view.findViewById(R.id.radio_group);
-        int selectedIndex = element.getSelectedIndex();
         for (int i = 0; i < element.getElements().size(); i++) {
             RadioButton radioButton = (RadioButton) layoutInflater.inflate(R.layout.radio_button, null);
-            if (selectedIndex != -1 && selectedIndex == i) {
+            if (element.getElements().get(i).equalsIgnoreCase(element.getSelectedValue())) {
                 radioButton.setChecked(true);
             }
             radioButton.setId(i);

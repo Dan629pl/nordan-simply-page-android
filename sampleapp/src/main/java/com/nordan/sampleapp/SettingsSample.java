@@ -86,7 +86,7 @@ public class SettingsSample extends AppCompatActivity {
         return SingleChoiceElement.builder()
                 .title("Single choice element")
                 .elements(Arrays.asList("Never", "Ever", "Give up"))
-                .selectedIndex(1)
+                .selectedValue("Ever")
                 .onCheckedChangeListener(
                         (group, checkedId) -> Toast.makeText(this, "Select " + checkedId + " index element", Toast.LENGTH_SHORT).show())
                 .build();

@@ -18,5 +18,5 @@ public class SingleChoiceElement {
     private OnCheckedChangeListener onCheckedChangeListener;
     @NonNull
     private List<String> elements;
-    private int selectedIndex = -1;
+    private String selectedValue;
 }

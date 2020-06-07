@@ -21,7 +21,6 @@
 
   <style name="NordanPageTextBase">
     <item name="android:gravity">center</item>
-    <item name="android:singleLine">true</item>
     <item name="android:elegantTextHeight">true</item>
     <item name="android:layout_width">wrap_content</item>
     <item name="android:layout_height">wrap_content</item>
@@ -38,12 +37,12 @@
   <style name="NordanPageItemText" parent="NordanPageTextBase">
     <item name="fontFamily">@font/product_sans_regular</item>
     <item name="android:textSize">16sp</item>
+    <item name="android:gravity">start</item>
     <item name="android:textColor">@color/gray_font_color</item>
   </style>
 
   <style name="NordanPageItemSubText" parent="NordanPageTextBase">
     <item name="android:textSize">16sp</item>
-    <item name="android:singleLine">false</item>
     <item name="android:gravity">start</item>
     <item name="fontFamily">@font/product_sans_regular</item>
   </style>
