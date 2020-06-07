@@ -1,2 +1,3 @@
+include ':sampleapp'
 include ':app'
 rootProject.name = "NordanSimplyPage"

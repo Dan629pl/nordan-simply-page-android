@@ -19,10 +19,10 @@
   <LinearLayout
     android:id="@+id/single_bottom_element"
     android:layout_width="match_parent"
-    android:layout_height="48dp"
+    android:layout_height="64dp"
     android:layout_alignParentBottom="true"
     android:orientation="vertical"
     android:overScrollMode="never"
     android:scrollbars="none"
-    android:visibility="invisible" />
+    android:visibility="gone" />
 </RelativeLayout>

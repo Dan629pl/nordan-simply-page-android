@@ -1,9 +1,8 @@
 <resources>
 
   <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-    <item name="colorAccent">@color/colorAccent</item>
+    <item name="colorAccent">@color/gray_font_color</item>
   </style>
-
   <style name="NordanPageItemImage">
     <item name="android:adjustViewBounds">true</item>
     <item name="android:layout_margin">16dp</item>
@@ -38,7 +37,7 @@
 
   <style name="NordanPageItemText" parent="NordanPageTextBase">
     <item name="fontFamily">@font/product_sans_regular</item>
-    <item name="android:textSize">17sp</item>
+    <item name="android:textSize">16sp</item>
     <item name="android:textColor">@color/gray_font_color</item>
   </style>
 
@@ -62,9 +61,7 @@
   <style name="PageWrapperStyle">
     <item name="android:layout_width">match_parent</item>
     <item name="android:layout_height">match_parent</item>
-    <item name="android:padding">0dp</item>
     <item name="android:orientation">vertical</item>
-    <item name="android:layout_marginTop">20dp</item>
     <item name="android:gravity">center</item>
     <item name="android:background">@color/white</item>
   </style>

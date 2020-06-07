@@ -2,15 +2,16 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
-  android:gravity="center_vertical">
+  android:gravity="center_vertical"
+  android:minHeight="64dp">
   <ImageView
     android:id="@+id/image_group"
     style="@style/NordanPageGroupImage"
     android:contentDescription="@string/item_image_left_side"
     tools:srcCompat="@tools:sample/avatars" />
-    <com.google.android.material.textview.MaterialTextView
-      android:id="@+id/group_title"
-      style="@style/NordanPageGroupText"
-      android:layout_toEndOf="@+id/image_group"
-      android:text="@string/item_text" />
+  <com.google.android.material.textview.MaterialTextView
+    android:id="@+id/group_title"
+    style="@style/NordanPageGroupText"
+    android:layout_toEndOf="@+id/image_group"
+    android:text="@string/item_text" />
 </RelativeLayout>
