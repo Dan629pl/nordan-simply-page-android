@@ -84,229 +84,221 @@ public class NordanSimplyPage {
         return addSingleBottomItem(copyRightsElement);
     }
 
-    public NordanSimplyPage addSeekBarItem(SeekBarElement element) {
-        if (Objects.isNull(element)) {
-            return this;
-        }
-        final boolean[] isResize = {false};
-        LinearLayout view = (LinearLayout) layoutInflater.inflate(R.layout.seekbar_view, null);
-        RelativeLayout headerView = view.findViewById(R.id.head_item);
-        ImageView headerImageLeftSide = headerView.findViewById(R.id.image_left);
-        ImageView headerImageRightSide = headerView.findViewById(R.id.image_right);
-        MaterialTextView headerTextItem = headerView.findViewById(R.id.item_text);
-        MaterialTextView headerSubTextItem = headerView.findViewById(R.id.item_subtext);
-        SeekBar seekBar = view.findViewById(R.id.seek_bar);
-        seekBar.setMax(element.getMaxValue());
-        if (VERSION.SDK_INT >= VERSION_CODES.O) {
-            seekBar.setMin(element.getMinValue());
-        }
-        headerSubTextItem.setVisibility(View.VISIBLE);
-        headerSubTextItem.setText(MessageFormat.format("{0}{1}", element.getMinValue(), element.getSubText()));
-        OnSeekBarChangeValueListener onSeekBarChangeValueListener = element.getOnSeekBarChangeValueListener();
-        seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int value = seekBar.getProgress() < element.getMinValue()
-                        ? element.getMinValue()
-                        : seekBar.getProgress();
-                headerSubTextItem.setText(MessageFormat.format("{0}{1}", value, element.getSubText()));
+    public NordanSimplyPage addSeekBarItem(SeekBarElement parElement) {
+        Optional.ofNullable(parElement).ifPresent(element -> {
+            final boolean[] isResize = {false};
+            LinearLayout view = (LinearLayout) layoutInflater.inflate(R.layout.seekbar_view, null);
+            RelativeLayout headerView = view.findViewById(R.id.head_item);
+            ImageView headerImageLeftSide = headerView.findViewById(R.id.image_left);
+            ImageView headerImageRightSide = headerView.findViewById(R.id.image_right);
+            MaterialTextView headerTextItem = headerView.findViewById(R.id.item_text);
+            MaterialTextView headerSubTextItem = headerView.findViewById(R.id.item_subtext);
+            SeekBar seekBar = view.findViewById(R.id.seek_bar);
+            seekBar.setMax(element.getMaxValue());
+            if (VERSION.SDK_INT >= VERSION_CODES.O) {
+                seekBar.setMin(element.getMinValue());
             }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {/* not implement*/}
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                int value = seekBar.getProgress() < element.getMinValue()
-                        ? element.getMinValue()
-                        : seekBar.getProgress();
-                onSeekBarChangeValueListener.onNewValueSet(value);
-            }
-        });
-
-        if (element.getProgress() != 0) {
-            seekBar.setProgress(element.getProgress());
-        }
-        Optional.of(element.getRightSideIconDrawable())
-                .filter(value -> value != 0)
-                .ifPresent(resId -> {
-                    Glide.with(activity).load(resId).into(headerImageRightSide);
-                    headerImageRightSide.setVisibility(View.VISIBLE);
-                });
-        Optional.of(element.getLeftSideIconDrawable())
-                .filter(value -> value != 0)
-                .map(resId -> {
-                    headerImageLeftSide.setVisibility(View.VISIBLE);
-                    return Glide.with(activity).load(resId).into(headerImageLeftSide);
-                }).orElseGet(() -> Glide.with(activity).load(R.drawable.arrow_down).into(headerImageLeftSide));
-        headerTextItem.setText(element.getTitle());
-        headerView.setOnClickListener(v -> {
-            if (!isResize[0]) {
-                isResize[0] = true;
-                Glide.with(activity).load(R.drawable.arrow_up).into(headerImageLeftSide);
-                TransitionManager.beginDelayedTransition(pageView.findViewById(R.id.page_provider), new ChangeBounds());
-                view.getChildAt(1).setVisibility(View.VISIBLE);
-            } else {
-                isResize[0] = false;
-                Glide.with(activity).load(R.drawable.arrow_down).into(headerImageLeftSide);
-                TransitionManager.beginDelayedTransition(pageView.findViewById(R.id.page_provider));
-                view.getChildAt(1).setVisibility(View.GONE);
-            }
-        });
-
-        TypedValue outValue = new TypedValue();
-        activity.getTheme().resolveAttribute(R.attr.selectableItemBackground, outValue, true);
-        headerView.setBackgroundResource(outValue.resourceId);
-        ((LinearLayout) pageView.findViewById(R.id.page_provider)).addView(view);
-        addSeparator();
-        return this;
-    }
-
-    public NordanSimplyPage addCheckBoxItem(CheckBoxElement element) {
-        if (Objects.isNull(element)) {
-            return this;
-        }
-        LinearLayout view = (LinearLayout) layoutInflater.inflate(R.layout.checkbox_extendable_view, null);
-        RelativeLayout headerView = view.findViewById(R.id.head_item);
-        MaterialCheckBox checkBox = headerView.findViewById(R.id.checkbox_item);
-        ImageView headerImageRightSide = headerView.findViewById(R.id.image_right);
-        MaterialTextView headerTextItem = headerView.findViewById(R.id.item_text);
-        MaterialTextView headerSubTextItem = headerView.findViewById(R.id.item_subtext);
-        checkBox.setOnCheckedChangeListener(element.getOnCheckedChangeListener());
-        checkBox.setChecked(element.isChecked());
-        if (element.isChecked()) {
-            for (int i = 1; i < view.getChildCount(); i++) {
-                view.getChildAt(i).setVisibility(View.VISIBLE);
-            }
-        }
-        Optional.of(element.getRightSideIconDrawable())
-                .filter(value -> value != 0)
-                .ifPresent(resId -> {
-                    Glide.with(activity).load(resId).into(headerImageRightSide);
-                    headerImageRightSide.setVisibility(View.VISIBLE);
-                });
-        Optional.ofNullable(element.getSubText())
-                .filter(subText -> !subText.isEmpty())
-                .ifPresent(subText -> {
-                    headerSubTextItem.setText(subText);
-                    headerSubTextItem.setVisibility(View.VISIBLE);
-                });
-        headerTextItem.setText(element.getTitle());
-        Optional.ofNullable(element.getExtendView()).ifPresent(extendView -> {
-            extendView.setVisibility(View.GONE);
-            view.addView(extendView);
-        });
-        checkBox.setOnClickListener(v -> {
-            TransitionManager.endTransitions(pageView.findViewById(R.id.page_provider));
-            if (checkBox.isChecked() && Objects.nonNull(element.getExtendView())) {
-                TransitionManager.beginDelayedTransition(pageView.findViewById(R.id.page_provider), new ChangeBounds());
-                for (int i = 1; i < view.getChildCount(); i++) {
-                    view.getChildAt(i).setVisibility(View.VISIBLE);
-                }
-            } else {
-                TransitionManager.beginDelayedTransition(pageView.findViewById(R.id.page_provider));
-                for (int i = 1; i < view.getChildCount(); i++) {
-                    View childAt = view.getChildAt(i);
-                    TransitionManager.beginDelayedTransition((ViewGroup) childAt, new ChangeBounds());
-                    childAt.setVisibility(View.GONE);
-                }
-            }
-        });
-        ((LinearLayout) pageView.findViewById(R.id.page_provider)).addView(view);
-        addSeparator();
-        return this;
-    }
-
-    public NordanSimplyPage addSingleRadioChoiceItem(SingleChoiceElement element) {
-        if (Objects.isNull(element)) {
-            return this;
-        }
-        final boolean[] isResize = {false};
-        LinearLayout view = (LinearLayout) layoutInflater.inflate(R.layout.radio_choice_view, null);
-        RelativeLayout headerView = view.findViewById(R.id.head_item);
-        ImageView headerImageLeftSide = headerView.findViewById(R.id.image_left);
-        ImageView headerImageRightSide = headerView.findViewById(R.id.image_right);
-        MaterialTextView headerTextItem = headerView.findViewById(R.id.item_text);
-        MaterialTextView headerSubTextItem = headerView.findViewById(R.id.item_subtext);
-        if (Objects.nonNull(element.getSelectedValue())) {
             headerSubTextItem.setVisibility(View.VISIBLE);
-            headerSubTextItem.setText(element.getSelectedValue());
-        }
-        RadioGroup radioGroup = view.findViewById(R.id.radio_group);
-        for (int i = 0; i < element.getElements().size(); i++) {
-            RadioButton radioButton = (RadioButton) layoutInflater.inflate(R.layout.radio_button, null);
-            if (element.getElements().get(i).equalsIgnoreCase(element.getSelectedValue())) {
-                radioButton.setChecked(true);
-            }
-            radioButton.setId(i);
-            radioButton.setText(element.getElements().get(i));
-            radioButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                headerSubTextItem.setText(radioButton.getText());
-                headerSubTextItem.setVisibility(View.VISIBLE);
-            });
-            radioGroup.addView(radioButton);
-        }
-        radioGroup.setOnCheckedChangeListener(element.getOnCheckedChangeListener());
-        Optional.of(element.getRightSideIconDrawable())
-                .filter(value -> value != 0)
-                .ifPresent(resId -> {
-                    Glide.with(activity).load(resId).into(headerImageRightSide);
-                    headerImageRightSide.setVisibility(View.VISIBLE);
-                });
-        Optional.of(element.getLeftSideIconDrawable())
-                .filter(value -> value != 0)
-                .map(resId -> {
-                    headerImageLeftSide.setVisibility(View.VISIBLE);
-                    return Glide.with(activity).load(resId).into(headerImageLeftSide);
-                }).orElseGet(() -> Glide.with(activity).load(R.drawable.arrow_down).into(headerImageLeftSide));
-        headerTextItem.setText(element.getTitle());
-        headerView.setOnClickListener(v -> {
-            if (!isResize[0]) {
-                isResize[0] = true;
-                Glide.with(activity).load(R.drawable.arrow_up).into(headerImageLeftSide);
-                TransitionManager.beginDelayedTransition(pageView.findViewById(R.id.page_provider), new ChangeBounds());
-                for (int i = 1; i < view.getChildCount(); i++) {
-                    view.getChildAt(i).setVisibility(View.VISIBLE);
+            headerSubTextItem.setText(MessageFormat.format("{0}{1}", element.getMinValue(), element.getSubText()));
+            OnSeekBarChangeValueListener onSeekBarChangeValueListener = element.getOnSeekBarChangeValueListener();
+            seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    int value = seekBar.getProgress() < element.getMinValue()
+                            ? element.getMinValue()
+                            : seekBar.getProgress();
+                    headerSubTextItem.setText(MessageFormat.format("{0}{1}", value, element.getSubText()));
                 }
-            } else {
-                isResize[0] = false;
-                Glide.with(activity).load(R.drawable.arrow_down).into(headerImageLeftSide);
-                TransitionManager.beginDelayedTransition(pageView.findViewById(R.id.page_provider));
-                for (int i = 1; i < view.getChildCount(); i++) {
-                    View childAt = view.getChildAt(i);
-                    TransitionManager.beginDelayedTransition((ViewGroup) childAt);
-                    childAt.setVisibility(View.GONE);
-                }
-            }
-        });
 
-        TypedValue outValue = new TypedValue();
-        activity.getTheme().resolveAttribute(R.attr.selectableItemBackground, outValue, true);
-        headerView.setBackgroundResource(outValue.resourceId);
-        ((LinearLayout) pageView.findViewById(R.id.page_provider)).addView(view);
-        addSeparator();
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {/* not implement*/}
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                    int value = seekBar.getProgress() < element.getMinValue()
+                            ? element.getMinValue()
+                            : seekBar.getProgress();
+                    onSeekBarChangeValueListener.onNewValueSet(value);
+                }
+            });
+
+            if (element.getProgress() != 0) {
+                seekBar.setProgress(element.getProgress());
+            }
+            Optional.of(element.getRightSideIconDrawable())
+                    .filter(value -> value != 0)
+                    .ifPresent(resId -> {
+                        Glide.with(activity).load(resId).into(headerImageRightSide);
+                        headerImageRightSide.setVisibility(View.VISIBLE);
+                    });
+            Optional.of(element.getLeftSideIconDrawable())
+                    .filter(value -> value != 0)
+                    .map(resId -> {
+                        headerImageLeftSide.setVisibility(View.VISIBLE);
+                        return Glide.with(activity).load(resId).into(headerImageLeftSide);
+                    }).orElseGet(() -> Glide.with(activity).load(R.drawable.arrow_down).into(headerImageLeftSide));
+            headerTextItem.setText(element.getTitle());
+            headerView.setOnClickListener(v -> {
+                if (!isResize[0]) {
+                    isResize[0] = true;
+                    Glide.with(activity).load(R.drawable.arrow_up).into(headerImageLeftSide);
+                    TransitionManager.beginDelayedTransition(pageView.findViewById(R.id.page_provider), new ChangeBounds());
+                    view.getChildAt(1).setVisibility(View.VISIBLE);
+                } else {
+                    isResize[0] = false;
+                    Glide.with(activity).load(R.drawable.arrow_down).into(headerImageLeftSide);
+                    TransitionManager.beginDelayedTransition(pageView.findViewById(R.id.page_provider));
+                    view.getChildAt(1).setVisibility(View.GONE);
+                }
+            });
+
+            TypedValue outValue = new TypedValue();
+            activity.getTheme().resolveAttribute(R.attr.selectableItemBackground, outValue, true);
+            headerView.setBackgroundResource(outValue.resourceId);
+            ((LinearLayout) pageView.findViewById(R.id.page_provider)).addView(view);
+            addSeparator();
+        });
         return this;
     }
 
-    public NordanSimplyPage addSingleBottomItem(BaseElement basePageElement) {
-        if (Objects.isNull(basePageElement)) {
-            return this;
-        }
-        LinearLayout bottomLinear = pageView.findViewById(R.id.single_bottom_element);
-        bottomLinear.setVisibility(View.VISIBLE);
-        RelativeLayout view = (RelativeLayout) layoutInflater.inflate(R.layout.minimal_item_view, null);
-        MaterialTextView textItem = view.findViewById(R.id.item_text);
-        textItem.setText(basePageElement.getTitle());
-        if (basePageElement.getGravity() != 0) {
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-            params.setMargins(0, 0, 0, 0);
-            view.setGravity(basePageElement.getGravity());
-            textItem.setLayoutParams(params);
-        }
-        if (bottomLinear.getChildCount() > 0) {
-            bottomLinear.removeAllViews();
-        }
-        bottomLinear.addView(view);
+    public NordanSimplyPage addCheckBoxItem(CheckBoxElement parElement) {
+        Optional.ofNullable(parElement).ifPresent(element -> {
+            LinearLayout view = (LinearLayout) layoutInflater.inflate(R.layout.checkbox_extendable_view, null);
+            RelativeLayout headerView = view.findViewById(R.id.head_item);
+            MaterialCheckBox checkBox = headerView.findViewById(R.id.checkbox_item);
+            ImageView headerImageRightSide = headerView.findViewById(R.id.image_right);
+            MaterialTextView headerTextItem = headerView.findViewById(R.id.item_text);
+            MaterialTextView headerSubTextItem = headerView.findViewById(R.id.item_subtext);
+            checkBox.setOnCheckedChangeListener(element.getOnCheckedChangeListener());
+            checkBox.setChecked(element.isChecked());
+            Optional.of(element.getRightSideIconDrawable())
+                    .filter(value -> value != 0)
+                    .ifPresent(resId -> {
+                        Glide.with(activity).load(resId).into(headerImageRightSide);
+                        headerImageRightSide.setVisibility(View.VISIBLE);
+                    });
+            Optional.ofNullable(element.getSubText())
+                    .filter(subText -> !subText.isEmpty())
+                    .ifPresent(subText -> {
+                        headerSubTextItem.setText(subText);
+                        headerSubTextItem.setVisibility(View.VISIBLE);
+                    });
+            headerTextItem.setText(element.getTitle());
+            Optional.ofNullable(element.getExtendView()).ifPresent(extendView -> {
+                extendView.setVisibility(View.GONE);
+                view.addView(extendView);
+            });
+            if (element.isChecked()) {
+                for (int i = 1; i < view.getChildCount(); i++) {
+                    view.getChildAt(i).setVisibility(View.VISIBLE);
+                }
+            }
+            checkBox.setOnClickListener(v -> {
+                TransitionManager.endTransitions(pageView.findViewById(R.id.page_provider));
+                if (checkBox.isChecked() && Objects.nonNull(element.getExtendView())) {
+                    TransitionManager.beginDelayedTransition(pageView.findViewById(R.id.page_provider), new ChangeBounds());
+                    for (int i = 1; i < view.getChildCount(); i++) {
+                        view.getChildAt(i).setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    TransitionManager.beginDelayedTransition(pageView.findViewById(R.id.page_provider));
+                    for (int i = 1; i < view.getChildCount(); i++) {
+                        View childAt = view.getChildAt(i);
+                        TransitionManager.beginDelayedTransition((ViewGroup) childAt, new ChangeBounds());
+                        childAt.setVisibility(View.GONE);
+                    }
+                }
+            });
+            ((LinearLayout) pageView.findViewById(R.id.page_provider)).addView(view);
+            addSeparator();
+        });
+        return this;
+    }
+
+    public NordanSimplyPage addSingleRadioChoiceItem(SingleChoiceElement parElement) {
+        Optional.ofNullable(parElement).ifPresent(element -> {
+            final boolean[] isResize = {false};
+            LinearLayout view = (LinearLayout) layoutInflater.inflate(R.layout.radio_choice_view, null);
+            RelativeLayout headerView = view.findViewById(R.id.head_item);
+            ImageView headerImageLeftSide = headerView.findViewById(R.id.image_left);
+            ImageView headerImageRightSide = headerView.findViewById(R.id.image_right);
+            MaterialTextView headerTextItem = headerView.findViewById(R.id.item_text);
+            MaterialTextView headerSubTextItem = headerView.findViewById(R.id.item_subtext);
+            headerSubTextItem.setVisibility(View.VISIBLE);
+            RadioGroup radioGroup = view.findViewById(R.id.radio_group);
+            headerSubTextItem.setText(element.getElements().get(0));
+            for (int i = 0; i < element.getElements().size(); i++) {
+                RadioButton radioButton = (RadioButton) layoutInflater.inflate(R.layout.radio_button, null);
+                if (element.getElements().get(i).equalsIgnoreCase(element.getSelectedValue())) {
+                    radioButton.setChecked(true);
+                    headerSubTextItem.setText(element.getElements().get(i));
+                }
+                radioButton.setId(i);
+                radioButton.setText(element.getElements().get(i));
+                radioButton.setOnCheckedChangeListener((buttonView, isChecked) -> headerSubTextItem.setText(radioButton.getText()));
+                radioGroup.addView(radioButton);
+            }
+            radioGroup.setOnCheckedChangeListener(element.getOnCheckedChangeListener());
+            Optional.of(element.getRightSideIconDrawable())
+                    .filter(value -> value != 0)
+                    .ifPresent(resId -> {
+                        Glide.with(activity).load(resId).into(headerImageRightSide);
+                        headerImageRightSide.setVisibility(View.VISIBLE);
+                    });
+            Optional.of(element.getLeftSideIconDrawable())
+                    .filter(value -> value != 0)
+                    .map(resId -> {
+                        headerImageLeftSide.setVisibility(View.VISIBLE);
+                        return Glide.with(activity).load(resId).into(headerImageLeftSide);
+                    }).orElseGet(() -> Glide.with(activity).load(R.drawable.arrow_down).into(headerImageLeftSide));
+            headerTextItem.setText(element.getTitle());
+            headerView.setOnClickListener(v -> {
+                if (!isResize[0]) {
+                    isResize[0] = true;
+                    Glide.with(activity).load(R.drawable.arrow_up).into(headerImageLeftSide);
+                    TransitionManager.beginDelayedTransition(pageView.findViewById(R.id.page_provider), new ChangeBounds());
+                    for (int i = 1; i < view.getChildCount(); i++) {
+                        view.getChildAt(i).setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    isResize[0] = false;
+                    Glide.with(activity).load(R.drawable.arrow_down).into(headerImageLeftSide);
+                    TransitionManager.beginDelayedTransition(pageView.findViewById(R.id.page_provider));
+                    for (int i = 1; i < view.getChildCount(); i++) {
+                        View childAt = view.getChildAt(i);
+                        TransitionManager.beginDelayedTransition((ViewGroup) childAt);
+                        childAt.setVisibility(View.GONE);
+                    }
+                }
+            });
+
+            TypedValue outValue = new TypedValue();
+            activity.getTheme().resolveAttribute(R.attr.selectableItemBackground, outValue, true);
+            headerView.setBackgroundResource(outValue.resourceId);
+            ((LinearLayout) pageView.findViewById(R.id.page_provider)).addView(view);
+            addSeparator();
+        });
+        return this;
+    }
+
+    public NordanSimplyPage addSingleBottomItem(BaseElement parElement) {
+        Optional.ofNullable(parElement).ifPresent(element -> {
+            LinearLayout bottomLinear = pageView.findViewById(R.id.single_bottom_element);
+            bottomLinear.setVisibility(View.VISIBLE);
+            RelativeLayout view = (RelativeLayout) layoutInflater.inflate(R.layout.minimal_item_view, null);
+            MaterialTextView textItem = view.findViewById(R.id.item_text);
+            textItem.setText(parElement.getTitle());
+            if (parElement.getGravity() != 0) {
+                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+                params.setMargins(0, 0, 0, 0);
+                view.setGravity(parElement.getGravity());
+                textItem.setLayoutParams(params);
+            }
+            if (bottomLinear.getChildCount() > 0) {
+                bottomLinear.removeAllViews();
+            }
+            bottomLinear.addView(view);
+        });
         return this;
     }
 
@@ -325,106 +317,107 @@ public class NordanSimplyPage {
         return this;
     }
 
-    public NordanSimplyPage addMinimalItem(BaseElement basePageElement) {
-        if (Objects.isNull(basePageElement)) {
-            return this;
-        }
-        RelativeLayout view = (RelativeLayout) layoutInflater.inflate(R.layout.minimal_item_view, null);
-        MaterialTextView textItem = view.findViewById(R.id.item_text);
-        textItem.setText(basePageElement.getTitle());
-        if (basePageElement.getGravity() != 0) {
-            int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 64, activity.getResources().getDisplayMetrics());
-            RelativeLayout.LayoutParams viewParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, px);
-            RelativeLayout.LayoutParams textParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-            view.setLayoutParams(viewParams);
-            view.setGravity(basePageElement.getGravity());
-            textItem.setLayoutParams(textParams);
-        }
-        TypedValue outValue = new TypedValue();
-        activity.getTheme().resolveAttribute(R.attr.selectableItemBackground, outValue, true);
-        view.setBackgroundResource(outValue.resourceId);
-        ((LinearLayout) pageView.findViewById(R.id.page_provider)).addView(view);
-        return this;
-    }
-
-    public NordanSimplyPage addSwitchItem(SwitchElement switchElement) {
-        RelativeLayout view = (RelativeLayout) layoutInflater.inflate(R.layout.switch_item_view, null);
-        MaterialTextView textItem = view.findViewById(R.id.item_text);
-        MaterialTextView subTextItem = view.findViewById(R.id.item_subtext);
-        SwitchMaterial switchItem = (SwitchMaterial) view.findViewById(R.id.switch_item);
-        switchItem.setOnCheckedChangeListener(switchElement.getOnCheckedChangeListener());
-        textItem.setText(switchElement.getTitle());
-        switchItem.setChecked(switchElement.isChecked());
-        Optional.ofNullable(switchElement.getSubText())
-                .filter(subText -> !subText.isEmpty())
-                .ifPresent(subText -> {
-                    subTextItem.setText(subText);
-                    subTextItem.setVisibility(View.VISIBLE);
-                });
-        ((LinearLayout) pageView.findViewById(R.id.page_provider)).addView(view);
-        addSeparator();
-        return this;
-    }
-
-    public NordanSimplyPage addItem(PageElement pageElement) {
-        if (Objects.isNull(pageElement)) {
-            return this;
-        }
-        RelativeLayout view = (RelativeLayout) layoutInflater.inflate(R.layout.standard_item_view, null);
-        ImageView imageLeftSide = view.findViewById(R.id.image_left);
-        ImageView imageRightSide = view.findViewById(R.id.image_right);
-        MaterialTextView textItem = view.findViewById(R.id.item_text);
-        MaterialTextView subTextItem = view.findViewById(R.id.item_subtext);
-        TypedValue outValue = new TypedValue();
-        activity.getTheme().resolveAttribute(R.attr.selectableItemBackground, outValue, true);
-        view.setBackgroundResource(outValue.resourceId);
-        if (pageElement.getOnClickListener() != null) {
-            view.setOnClickListener(pageElement.getOnClickListener());
-        } else if (pageElement.getIntent() != null) {
-            view.setOnClickListener(click -> activity.startActivity(pageElement.getIntent()));
-        }
-        Optional.of(pageElement.getLeftSideIconDrawable())
-                .filter(value -> value != 0)
-                .ifPresent(resId -> {
-                    Glide.with(activity).load(resId).into(imageLeftSide);
-                    imageLeftSide.setVisibility(View.VISIBLE);
-                });
-        Optional.of(pageElement.getRightSideIconDrawable())
-                .filter(value -> value != 0)
-                .ifPresent(resId -> {
-                    Glide.with(activity).load(resId).into(imageRightSide);
-                    imageRightSide.setVisibility(View.VISIBLE);
-                });
-        textItem.setText(pageElement.getTitle());
-        Optional.ofNullable(pageElement.getSubText())
-                .filter(subText -> !subText.isEmpty())
-                .ifPresent(subText -> {
-                    subTextItem.setText(subText);
-                    subTextItem.setVisibility(View.VISIBLE);
-                });
-        if (pageElement.getGravity() != 0) {/*TODO*/}
-        LinearLayout wrapper = pageView.findViewById(R.id.page_provider);
-        wrapper.addView(view);
-        addSeparator();
-        return this;
-    }
-
-    public NordanSimplyPage addAccountItem(AccountElement accountElement) {
-        if (Objects.isNull(accountElement)) {
-            return this;
-        }
-        RelativeLayout view = (RelativeLayout) layoutInflater.inflate(R.layout.account_item_view, null);
-        ImageView accountPhoto = view.findViewById(R.id.account_photo);
-        MaterialTextView textAccountName = view.findViewById(R.id.account_name);
-        MaterialTextView textAccountEmail = view.findViewById(R.id.account_email);
-        Optional.ofNullable(accountElement.getAccountPhotoUrl()).ifPresent(uri -> {
-            Glide.with(activity).load(uri).into(accountPhoto);
-            accountPhoto.setVisibility(View.VISIBLE);
+    public NordanSimplyPage addMinimalItem(BaseElement parElement) {
+        Optional.ofNullable(parElement).ifPresent(element -> {
+            RelativeLayout view = (RelativeLayout) layoutInflater.inflate(R.layout.minimal_item_view, null);
+            MaterialTextView textItem = view.findViewById(R.id.item_text);
+            textItem.setText(element.getTitle());
+            if (element.getGravity() != 0) {
+                int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 64, activity.getResources().getDisplayMetrics());
+                RelativeLayout.LayoutParams viewParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, px);
+                RelativeLayout.LayoutParams textParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+                        LayoutParams.WRAP_CONTENT);
+                view.setLayoutParams(viewParams);
+                view.setGravity(element.getGravity());
+                textItem.setLayoutParams(textParams);
+            }
+            TypedValue outValue = new TypedValue();
+            activity.getTheme().resolveAttribute(R.attr.selectableItemBackground, outValue, true);
+            view.setBackgroundResource(outValue.resourceId);
+            ((LinearLayout) pageView.findViewById(R.id.page_provider)).addView(view);
         });
-        textAccountName.setText(accountElement.getAccountName());
-        textAccountEmail.setText(accountElement.getAccountEmail());
-        ((LinearLayout) pageView.findViewById(R.id.page_provider)).addView(view);
-        addSeparator();
+        return this;
+    }
+
+    public NordanSimplyPage addSwitchItem(SwitchElement parElement) {
+        Optional.ofNullable(parElement).ifPresent(element -> {
+
+            RelativeLayout view = (RelativeLayout) layoutInflater.inflate(R.layout.switch_item_view, null);
+            MaterialTextView textItem = view.findViewById(R.id.item_text);
+            MaterialTextView subTextItem = view.findViewById(R.id.item_subtext);
+            SwitchMaterial switchItem = (SwitchMaterial) view.findViewById(R.id.switch_item);
+            switchItem.setOnCheckedChangeListener(element.getOnCheckedChangeListener());
+            textItem.setText(element.getTitle());
+            switchItem.setChecked(element.isChecked());
+            Optional.ofNullable(element.getSubText())
+                    .filter(subText -> !subText.isEmpty())
+                    .ifPresent(subText -> {
+                        subTextItem.setText(subText);
+                        subTextItem.setVisibility(View.VISIBLE);
+                    });
+            ((LinearLayout) pageView.findViewById(R.id.page_provider)).addView(view);
+            addSeparator();
+        });
+        return this;
+    }
+
+    public NordanSimplyPage addItem(PageElement parElement) {
+        Optional.ofNullable(parElement).ifPresent(element -> {
+            RelativeLayout view = (RelativeLayout) layoutInflater.inflate(R.layout.standard_item_view, null);
+            ImageView imageLeftSide = view.findViewById(R.id.image_left);
+            ImageView imageRightSide = view.findViewById(R.id.image_right);
+            MaterialTextView textItem = view.findViewById(R.id.item_text);
+            MaterialTextView subTextItem = view.findViewById(R.id.item_subtext);
+            TypedValue outValue = new TypedValue();
+            activity.getTheme().resolveAttribute(R.attr.selectableItemBackground, outValue, true);
+            view.setBackgroundResource(outValue.resourceId);
+            if (element.getOnClickListener() != null) {
+                view.setOnClickListener(element.getOnClickListener());
+            } else if (element.getIntent() != null) {
+                view.setOnClickListener(click -> activity.startActivity(element.getIntent()));
+            }
+            Optional.of(element.getLeftSideIconDrawable())
+                    .filter(value -> value != 0)
+                    .ifPresent(resId -> {
+                        Glide.with(activity).load(resId).into(imageLeftSide);
+                        imageLeftSide.setVisibility(View.VISIBLE);
+                    });
+            Optional.of(element.getRightSideIconDrawable())
+                    .filter(value -> value != 0)
+                    .ifPresent(resId -> {
+                        Glide.with(activity).load(resId).into(imageRightSide);
+                        imageRightSide.setVisibility(View.VISIBLE);
+                    });
+            textItem.setText(element.getTitle());
+            Optional.ofNullable(element.getSubText())
+                    .filter(subText -> !subText.isEmpty())
+                    .ifPresent(subText -> {
+                        subTextItem.setText(subText);
+                        subTextItem.setVisibility(View.VISIBLE);
+                    });
+            if (element.getGravity() != 0) {/*TODO*/}
+            LinearLayout wrapper = pageView.findViewById(R.id.page_provider);
+            wrapper.addView(view);
+            addSeparator();
+        });
+        return this;
+    }
+
+    public NordanSimplyPage addAccountItem(AccountElement parElement) {
+        Optional.ofNullable(parElement).ifPresent(element -> {
+            RelativeLayout view = (RelativeLayout) layoutInflater.inflate(R.layout.account_item_view, null);
+            ImageView accountPhoto = view.findViewById(R.id.account_photo);
+            MaterialTextView textAccountName = view.findViewById(R.id.account_name);
+            MaterialTextView textAccountEmail = view.findViewById(R.id.account_email);
+            Optional.ofNullable(element.getAccountPhotoUrl()).ifPresent(uri -> {
+                Glide.with(activity).load(uri).into(accountPhoto);
+                accountPhoto.setVisibility(View.VISIBLE);
+            });
+            textAccountName.setText(element.getAccountName());
+            textAccountEmail.setText(element.getAccountEmail());
+            ((LinearLayout) pageView.findViewById(R.id.page_provider)).addView(view);
+            addSeparator();
+        });
         return this;
     }
 

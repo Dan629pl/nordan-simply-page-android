@@ -54,7 +54,7 @@ public class SettingsSample extends AppCompatActivity {
     private CheckBoxElement createCheckBoxExtendableElement() {
         return CheckBoxElement.builder()
                 .title("Extendable CheckBox Element")
-                .isChecked(false)
+                .isChecked(true)
                 .subText("Subtext is available here")
                 .onCheckedChangeListener((buttonView, isChecked) -> {
                 })
