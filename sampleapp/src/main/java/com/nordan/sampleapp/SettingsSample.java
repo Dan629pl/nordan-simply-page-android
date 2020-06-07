@@ -9,7 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.nordan.simplypage.NordanSimplyPage;
 import com.nordan.simplypage.dto.AccountElement;
 import com.nordan.simplypage.dto.BaseElement;
+import com.nordan.simplypage.dto.CheckBoxElement;
 import com.nordan.simplypage.dto.PageElement;
+import com.nordan.simplypage.dto.SeekBarElement;
 import com.nordan.simplypage.dto.SingleChoiceElement;
 import com.nordan.simplypage.dto.SwitchElement;
 import java.util.Arrays;
@@ -30,14 +32,61 @@ public class SettingsSample extends AppCompatActivity {
                 .addSwitchItem(createThemeSwitcherElement())
                 .addItem(createTimeRefreshElement())
                 .addSingleRadioChoiceItem(createSingleChoiceElement())
+                .addCheckBoxItem(createCheckBoxElement())
+                .addCheckBoxItem(createCheckBoxExtendableElement())
+                .addSeekBarItem(createSeekBarElement())
                 .create();
         setContentView(settingPage);
+    }
+
+    private SeekBarElement createSeekBarElement() {
+        return SeekBarElement.builder()
+                .title("SeekBar Element")
+                .subText(" Special subtext")
+                .progress(20)
+                .minValue(1)
+                .maxValue(30)
+                .onSeekBarChangeValueListener(
+                        newValue -> Toast.makeText(SettingsSample.this, "New value: " + newValue, Toast.LENGTH_SHORT).show())
+                .build();
+    }
+
+    private CheckBoxElement createCheckBoxExtendableElement() {
+        return CheckBoxElement.builder()
+                .title("Extendable CheckBox Element")
+                .isChecked(false)
+                .subText("Subtext is available here")
+                .onCheckedChangeListener((buttonView, isChecked) -> {
+                })
+                .extendView(createExtendView())
+                .build();
+    }
+
+    private View createExtendView() {
+        return new NordanSimplyPage(this)
+                .addGroup(R.color.gray_font_color, "Extended View")
+                .addCheckBoxItem(createCheckBoxElement())
+                .addPhone("123456789", "Call to me")
+                .addSwitchItem(createThemeSwitcherElement())
+                .addSingleRadioChoiceItem(createSingleChoiceElement())
+                .create();
+    }
+
+    private CheckBoxElement createCheckBoxElement() {
+        return CheckBoxElement.builder()
+                .title("CheckBox Element")
+                .isChecked(true)
+                .subText("Subtext is available here")
+                .onCheckedChangeListener((buttonView, isChecked) -> {
+                })
+                .build();
     }
 
     private SingleChoiceElement createSingleChoiceElement() {
         return SingleChoiceElement.builder()
                 .title("Single choice element")
                 .elements(Arrays.asList("Never", "Ever", "Give up"))
+                .selectedIndex(1)
                 .onCheckedChangeListener(
                         (group, checkedId) -> Toast.makeText(this, "Select " + checkedId + " index element", Toast.LENGTH_SHORT).show())
                 .build();
@@ -69,6 +118,7 @@ public class SettingsSample extends AppCompatActivity {
     private SwitchElement createThemeSwitcherElement() {
         return SwitchElement.builder()
                 .title("Dark mode")
+                .isChecked(true)
                 .subText("Switch to enable dark mode application.")
                 .onCheckedChangeListener(
                         (buttonView, isChecked) -> Toast.makeText(this, "IS CHECKED: " + isChecked, Toast.LENGTH_SHORT).show())

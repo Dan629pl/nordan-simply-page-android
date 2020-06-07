@@ -1,22 +1,21 @@
 package com.nordan.simplypage.dto;
 
-import android.widget.RadioGroup.OnCheckedChangeListener;
-import java.util.List;
+import android.view.View;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
 
 @Getter
 @Builder
-public class SingleChoiceElement {
+public class CheckBoxElement {
 
     @NonNull
     private String title;
+    private String subText;
     private int rightSideIconDrawable;
-    private int leftSideIconDrawable;
     @NonNull
     private OnCheckedChangeListener onCheckedChangeListener;
-    @NonNull
-    private List<String> elements;
-    private int selectedIndex = -1;
+    private boolean isChecked;
+    private View extendView;
 }

@@ -3,6 +3,8 @@ package com.nordan.simplypage;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContextWrapper;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.transition.ChangeBounds;
 import android.transition.TransitionManager;
 import android.util.TypedValue;
@@ -16,14 +18,20 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import com.bumptech.glide.Glide;
+import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textview.MaterialTextView;
 import com.nordan.simplypage.dto.AccountElement;
 import com.nordan.simplypage.dto.BaseElement;
+import com.nordan.simplypage.dto.CheckBoxElement;
 import com.nordan.simplypage.dto.PageElement;
+import com.nordan.simplypage.dto.SeekBarElement;
 import com.nordan.simplypage.dto.SingleChoiceElement;
 import com.nordan.simplypage.dto.SwitchElement;
+import java.text.MessageFormat;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Objects;
@@ -76,7 +84,138 @@ public class NordanSimplyPage {
         return addSingleBottomItem(copyRightsElement);
     }
 
+    public NordanSimplyPage addSeekBarItem(SeekBarElement element) {
+        if (Objects.isNull(element)) {
+            return this;
+        }
+        final boolean[] isResize = {false};
+        LinearLayout view = (LinearLayout) layoutInflater.inflate(R.layout.seekbar_view, null);
+        RelativeLayout headerView = view.findViewById(R.id.head_item);
+        ImageView headerImageLeftSide = headerView.findViewById(R.id.image_left);
+        ImageView headerImageRightSide = headerView.findViewById(R.id.image_right);
+        MaterialTextView headerTextItem = headerView.findViewById(R.id.item_text);
+        MaterialTextView headerSubTextItem = headerView.findViewById(R.id.item_subtext);
+        SeekBar seekBar = view.findViewById(R.id.seek_bar);
+        seekBar.setMax(element.getMaxValue());
+        if (VERSION.SDK_INT >= VERSION_CODES.O) {
+            seekBar.setMin(element.getMinValue());
+        }
+        headerSubTextItem.setVisibility(View.VISIBLE);
+        headerSubTextItem.setText(MessageFormat.format("{0}{1}", element.getMinValue(), element.getSubText()));
+        OnSeekBarChangeValueListener onSeekBarChangeValueListener = element.getOnSeekBarChangeValueListener();
+        seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                int value = seekBar.getProgress() < element.getMinValue()
+                        ? element.getMinValue()
+                        : seekBar.getProgress();
+                headerSubTextItem.setText(MessageFormat.format("{0}{1}", value, element.getSubText()));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {/* not implement*/}
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                int value = seekBar.getProgress() < element.getMinValue()
+                        ? element.getMinValue()
+                        : seekBar.getProgress();
+                onSeekBarChangeValueListener.onNewValueSet(value);
+            }
+        });
+
+        if (element.getProgress() != 0) {
+            seekBar.setProgress(element.getProgress());
+        }
+        Optional.of(element.getRightSideIconDrawable())
+                .filter(value -> value != 0)
+                .ifPresent(resId -> {
+                    Glide.with(activity).load(resId).into(headerImageRightSide);
+                    headerImageRightSide.setVisibility(View.VISIBLE);
+                });
+        Optional.of(element.getLeftSideIconDrawable())
+                .filter(value -> value != 0)
+                .map(resId -> {
+                    headerImageLeftSide.setVisibility(View.VISIBLE);
+                    return Glide.with(activity).load(resId).into(headerImageLeftSide);
+                }).orElseGet(() -> Glide.with(activity).load(R.drawable.arrow_down).into(headerImageLeftSide));
+        headerTextItem.setText(element.getTitle());
+        headerView.setOnClickListener(v -> {
+            if (!isResize[0]) {
+                isResize[0] = true;
+                Glide.with(activity).load(R.drawable.arrow_up).into(headerImageLeftSide);
+                TransitionManager.beginDelayedTransition(pageView.findViewById(R.id.page_provider), new ChangeBounds());
+                view.getChildAt(1).setVisibility(View.VISIBLE);
+            } else {
+                isResize[0] = false;
+                Glide.with(activity).load(R.drawable.arrow_down).into(headerImageLeftSide);
+                TransitionManager.beginDelayedTransition(pageView.findViewById(R.id.page_provider));
+                view.getChildAt(1).setVisibility(View.GONE);
+            }
+        });
+
+        TypedValue outValue = new TypedValue();
+        activity.getTheme().resolveAttribute(R.attr.selectableItemBackground, outValue, true);
+        headerView.setBackgroundResource(outValue.resourceId);
+        ((LinearLayout) pageView.findViewById(R.id.page_provider)).addView(view);
+        addSeparator();
+        return this;
+    }
+
+    public NordanSimplyPage addCheckBoxItem(CheckBoxElement element) {
+        if (Objects.isNull(element)) {
+            return this;
+        }
+        LinearLayout view = (LinearLayout) layoutInflater.inflate(R.layout.checkbox_extendable_view, null);
+        RelativeLayout headerView = view.findViewById(R.id.head_item);
+        MaterialCheckBox checkBox = headerView.findViewById(R.id.checkbox_item);
+        ImageView headerImageRightSide = headerView.findViewById(R.id.image_right);
+        MaterialTextView headerTextItem = headerView.findViewById(R.id.item_text);
+        MaterialTextView headerSubTextItem = headerView.findViewById(R.id.item_subtext);
+        checkBox.setOnCheckedChangeListener(element.getOnCheckedChangeListener());
+        checkBox.setChecked(element.isChecked());
+        Optional.of(element.getRightSideIconDrawable())
+                .filter(value -> value != 0)
+                .ifPresent(resId -> {
+                    Glide.with(activity).load(resId).into(headerImageRightSide);
+                    headerImageRightSide.setVisibility(View.VISIBLE);
+                });
+        Optional.ofNullable(element.getSubText())
+                .filter(subText -> !subText.isEmpty())
+                .ifPresent(subText -> {
+                    headerSubTextItem.setText(subText);
+                    headerSubTextItem.setVisibility(View.VISIBLE);
+                });
+        headerTextItem.setText(element.getTitle());
+        Optional.ofNullable(element.getExtendView()).ifPresent(extendView -> {
+            extendView.setVisibility(View.GONE);
+            view.addView(extendView);
+        });
+        checkBox.setOnClickListener(v -> {
+            TransitionManager.endTransitions(pageView.findViewById(R.id.page_provider));
+            if (checkBox.isChecked() && Objects.nonNull(element.getExtendView())) {
+                TransitionManager.beginDelayedTransition(pageView.findViewById(R.id.page_provider), new ChangeBounds());
+                for (int i = 1; i < view.getChildCount(); i++) {
+                    view.getChildAt(i).setVisibility(View.VISIBLE);
+                }
+            } else {
+                TransitionManager.beginDelayedTransition(pageView.findViewById(R.id.page_provider));
+                for (int i = 1; i < view.getChildCount(); i++) {
+                    View childAt = view.getChildAt(i);
+                    TransitionManager.beginDelayedTransition((ViewGroup) childAt, new ChangeBounds());
+                    childAt.setVisibility(View.GONE);
+                }
+            }
+        });
+        ((LinearLayout) pageView.findViewById(R.id.page_provider)).addView(view);
+        addSeparator();
+        return this;
+    }
+
     public NordanSimplyPage addSingleRadioChoiceItem(SingleChoiceElement element) {
+        if (Objects.isNull(element)) {
+            return this;
+        }
         final boolean[] isResize = {false};
         LinearLayout view = (LinearLayout) layoutInflater.inflate(R.layout.radio_choice_view, null);
         RelativeLayout headerView = view.findViewById(R.id.head_item);
@@ -85,8 +224,12 @@ public class NordanSimplyPage {
         MaterialTextView headerTextItem = headerView.findViewById(R.id.item_text);
         MaterialTextView headerSubTextItem = headerView.findViewById(R.id.item_subtext);
         RadioGroup radioGroup = view.findViewById(R.id.radio_group);
+        int selectedIndex = element.getSelectedIndex();
         for (int i = 0; i < element.getElements().size(); i++) {
             RadioButton radioButton = (RadioButton) layoutInflater.inflate(R.layout.radio_button, null);
+            if (selectedIndex != -1 && selectedIndex == i) {
+                radioButton.setChecked(true);
+            }
             radioButton.setId(i);
             radioButton.setText(element.getElements().get(i));
             radioButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -203,6 +346,7 @@ public class NordanSimplyPage {
         SwitchMaterial switchItem = (SwitchMaterial) view.findViewById(R.id.switch_item);
         switchItem.setOnCheckedChangeListener(switchElement.getOnCheckedChangeListener());
         textItem.setText(switchElement.getTitle());
+        switchItem.setChecked(switchElement.isChecked());
         Optional.ofNullable(switchElement.getSubText())
                 .filter(subText -> !subText.isEmpty())
                 .ifPresent(subText -> {

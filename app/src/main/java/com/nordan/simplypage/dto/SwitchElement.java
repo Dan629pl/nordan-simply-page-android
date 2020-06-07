@@ -12,6 +12,7 @@ public class SwitchElement {
     @NonNull
     private String title;
     private String subText;
+    private boolean isChecked;
     @NonNull
     private OnCheckedChangeListener onCheckedChangeListener;
 }
