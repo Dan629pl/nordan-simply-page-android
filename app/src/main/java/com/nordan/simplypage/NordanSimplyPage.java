@@ -224,10 +224,9 @@ public class NordanSimplyPage {
         MaterialTextView headerTextItem = headerView.findViewById(R.id.item_text);
         MaterialTextView headerSubTextItem = headerView.findViewById(R.id.item_subtext);
         RadioGroup radioGroup = view.findViewById(R.id.radio_group);
-        int selectedIndex = element.getSelectedIndex();
         for (int i = 0; i < element.getElements().size(); i++) {
             RadioButton radioButton = (RadioButton) layoutInflater.inflate(R.layout.radio_button, null);
-            if (selectedIndex != -1 && selectedIndex == i) {
+            if (element.getElements().get(i).equalsIgnoreCase(element.getSelectedValue())) {
                 radioButton.setChecked(true);
             }
             radioButton.setId(i);
