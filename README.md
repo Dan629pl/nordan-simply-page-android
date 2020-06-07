@@ -81,7 +81,7 @@ dependencies {
 
 ![Gif Settings_Page](https://github.com/Dan629pl/NordanSimplyPage/blob/master/img/setting_page.gif)
 
-![Gif Settings_Page2](https://github.com/Dan629pl/NordanSimplyPage/blob/master/img/settings_page2.gif)
+![Gif Settings_Page2](https://github.com/Dan629pl/NordanSimplyPage/blob/master/img/setting_page2.gif)
 
 ![Screenshots](https://github.com/Dan629pl/NordanSimplyPage/blob/master/img/settings_hr.png)
 
