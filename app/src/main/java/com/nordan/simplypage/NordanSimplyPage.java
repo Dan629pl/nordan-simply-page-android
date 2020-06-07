@@ -235,7 +235,7 @@ public class NordanSimplyPage {
                 }
                 radioButton.setId(i);
                 radioButton.setText(element.getElements().get(i));
-                radioButton.setOnCheckedChangeListener((buttonView, isChecked) -> headerSubTextItem.setText(radioButton.getText()));
+                radioButton.setOnClickListener(v -> headerSubTextItem.setText(radioButton.getText()));
                 radioGroup.addView(radioButton);
             }
             radioGroup.setOnCheckedChangeListener(element.getOnCheckedChangeListener());
