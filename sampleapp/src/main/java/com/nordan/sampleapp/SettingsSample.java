@@ -11,6 +11,7 @@ import com.nordan.simplypage.dto.AccountElement;
 import com.nordan.simplypage.dto.BaseElement;
 import com.nordan.simplypage.dto.CheckBoxElement;
 import com.nordan.simplypage.dto.PageElement;
+import com.nordan.simplypage.dto.SeekBarElement;
 import com.nordan.simplypage.dto.SingleChoiceElement;
 import com.nordan.simplypage.dto.SwitchElement;
 import java.util.Arrays;
@@ -33,9 +34,19 @@ public class SettingsSample extends AppCompatActivity {
                 .addSingleRadioChoiceItem(createSingleChoiceElement())
                 .addCheckBoxItem(createCheckBoxElement())
                 .addCheckBoxItem(createCheckBoxExtendableElement())
-                .addAccountItem(createAccountElement())
+                .addSeekBarItem(createSeekBarElement())
                 .create();
         setContentView(settingPage);
+    }
+
+    private SeekBarElement createSeekBarElement() {
+        return SeekBarElement.builder()
+                .title("SeekBar Element")
+                .subText(" Special subtext")
+                .progress(20)
+                .onSeekBarChangeValueListener(
+                        newValue -> Toast.makeText(SettingsSample.this, "New value: " + newValue, Toast.LENGTH_SHORT).show())
+                .build();
     }
 
     private CheckBoxElement createCheckBoxExtendableElement() {

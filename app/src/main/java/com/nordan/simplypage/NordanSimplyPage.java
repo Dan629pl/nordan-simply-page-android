@@ -16,6 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import com.bumptech.glide.Glide;
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.switchmaterial.SwitchMaterial;
@@ -24,6 +26,7 @@ import com.nordan.simplypage.dto.AccountElement;
 import com.nordan.simplypage.dto.BaseElement;
 import com.nordan.simplypage.dto.CheckBoxElement;
 import com.nordan.simplypage.dto.PageElement;
+import com.nordan.simplypage.dto.SeekBarElement;
 import com.nordan.simplypage.dto.SingleChoiceElement;
 import com.nordan.simplypage.dto.SwitchElement;
 import java.util.Calendar;
@@ -78,6 +81,74 @@ public class NordanSimplyPage {
         return addSingleBottomItem(copyRightsElement);
     }
 
+    public NordanSimplyPage addSeekBarItem(SeekBarElement element) {
+        if (Objects.isNull(element)) {
+            return this;
+        }
+        final boolean[] isResize = {false};
+        LinearLayout view = (LinearLayout) layoutInflater.inflate(R.layout.seekbar_view, null);
+        RelativeLayout headerView = view.findViewById(R.id.head_item);
+        ImageView headerImageLeftSide = headerView.findViewById(R.id.image_left);
+        ImageView headerImageRightSide = headerView.findViewById(R.id.image_right);
+        MaterialTextView headerTextItem = headerView.findViewById(R.id.item_text);
+        MaterialTextView headerSubTextItem = headerView.findViewById(R.id.item_subtext);
+        SeekBar seekBar = view.findViewById(R.id.seek_bar);
+        headerSubTextItem.setVisibility(View.VISIBLE);
+        OnSeekBarChangeValueListener onSeekBarChangeValueListener = element.getOnSeekBarChangeValueListener();
+        seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                headerSubTextItem.setText("" + (seekBar.getProgress() == 0 ? 1 : seekBar.getProgress()) + element.getSubText());
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                onSeekBarChangeValueListener.onNewValueSet(seekBar.getProgress() == 0 ? 1 : seekBar.getProgress());
+            }
+        });
+
+        if (element.getProgress() != 0) {
+            seekBar.setProgress(element.getProgress());
+        }
+        Optional.of(element.getRightSideIconDrawable())
+                .filter(value -> value != 0)
+                .ifPresent(resId -> {
+                    Glide.with(activity).load(resId).into(headerImageRightSide);
+                    headerImageRightSide.setVisibility(View.VISIBLE);
+                });
+        Optional.of(element.getLeftSideIconDrawable())
+                .filter(value -> value != 0)
+                .map(resId -> {
+                    headerImageLeftSide.setVisibility(View.VISIBLE);
+                    return Glide.with(activity).load(resId).into(headerImageLeftSide);
+                }).orElseGet(() -> Glide.with(activity).load(R.drawable.arrow_down).into(headerImageLeftSide));
+        headerTextItem.setText(element.getTitle());
+        headerView.setOnClickListener(v -> {
+            if (!isResize[0]) {
+                isResize[0] = true;
+                Glide.with(activity).load(R.drawable.arrow_up).into(headerImageLeftSide);
+                TransitionManager.beginDelayedTransition(pageView.findViewById(R.id.page_provider), new ChangeBounds());
+                view.getChildAt(1).setVisibility(View.VISIBLE);
+            } else {
+                isResize[0] = false;
+                Glide.with(activity).load(R.drawable.arrow_down).into(headerImageLeftSide);
+                TransitionManager.beginDelayedTransition(pageView.findViewById(R.id.page_provider));
+                view.getChildAt(1).setVisibility(View.GONE);
+            }
+        });
+
+        TypedValue outValue = new TypedValue();
+        activity.getTheme().resolveAttribute(R.attr.selectableItemBackground, outValue, true);
+        headerView.setBackgroundResource(outValue.resourceId);
+        ((LinearLayout) pageView.findViewById(R.id.page_provider)).addView(view);
+        addSeparator();
+        return this;
+    }
 
     public NordanSimplyPage addCheckBoxItem(CheckBoxElement element) {
         if (Objects.isNull(element)) {
@@ -128,7 +199,6 @@ public class NordanSimplyPage {
         addSeparator();
         return this;
     }
-
 
     public NordanSimplyPage addSingleRadioChoiceItem(SingleChoiceElement element) {
         if (Objects.isNull(element)) {
