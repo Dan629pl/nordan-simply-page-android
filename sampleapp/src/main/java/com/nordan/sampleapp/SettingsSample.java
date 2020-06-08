@@ -47,6 +47,7 @@ public class SettingsSample extends AppCompatActivity {
         return EditableTextElement.builder()
                 .title("Default message with params")
                 .subText("Order number {0} ready for collection in {1} minutes.")
+                .helperTextParams("{0} -> Order number\n{1} -> minutes to collection")
                 .textParams(array)
                 .onEditTextChangeValueListener(newValue -> Toast.makeText(this, newValue, Toast.LENGTH_LONG).show())
                 .build();

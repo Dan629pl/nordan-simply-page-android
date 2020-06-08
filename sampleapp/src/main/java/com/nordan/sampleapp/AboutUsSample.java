@@ -29,6 +29,7 @@ public class AboutUsSample extends FragmentActivity {
                 .addYoutube("channelId")
                 .addWebsite("https://www.google.com", "Website")
                 .addSkype("profileId")
+                .addLinkedIn("daniel-owczarczyk-8b89a6150")
                 .addTwitter("profileId")
                 .addGroup(R.mipmap.ic_launcher_round, "Other groups (with left side image)")
                 .addMinimalItem(BaseElement.builder().title("Minimal item (only text view)").build())
