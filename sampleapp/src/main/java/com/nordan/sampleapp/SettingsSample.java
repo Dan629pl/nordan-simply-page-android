@@ -10,6 +10,7 @@ import com.nordan.simplypage.NordanSimplyPage;
 import com.nordan.simplypage.dto.AccountElement;
 import com.nordan.simplypage.dto.BaseElement;
 import com.nordan.simplypage.dto.CheckBoxElement;
+import com.nordan.simplypage.dto.EditableTextElement;
 import com.nordan.simplypage.dto.PageElement;
 import com.nordan.simplypage.dto.SeekBarElement;
 import com.nordan.simplypage.dto.SingleChoiceElement;
@@ -35,8 +36,20 @@ public class SettingsSample extends AppCompatActivity {
                 .addCheckBoxItem(createCheckBoxElement())
                 .addCheckBoxItem(createCheckBoxExtendableElement())
                 .addSeekBarItem(createSeekBarElement())
+                .addEditableTextItem(createEditTextElement())
+                .addEmptyItem(200)
                 .create();
         setContentView(settingPage);
+    }
+
+    private EditableTextElement createEditTextElement() {
+        String[] array = {"FIRST PARAM", "SECOND PARAM"};
+        return EditableTextElement.builder()
+                .title("Default message with params")
+                .subText("Order number {0} ready for collection in {1} minutes.")
+                .textParams(array)
+                .onEditTextChangeValueListener(newValue -> Toast.makeText(this, newValue, Toast.LENGTH_LONG).show())
+                .build();
     }
 
     private SeekBarElement createSeekBarElement() {
@@ -54,7 +67,7 @@ public class SettingsSample extends AppCompatActivity {
     private CheckBoxElement createCheckBoxExtendableElement() {
         return CheckBoxElement.builder()
                 .title("Extendable CheckBox Element")
-                .isChecked(true)
+                .isChecked(false)
                 .subText("Subtext is available here")
                 .onCheckedChangeListener((buttonView, isChecked) -> {
                 })
