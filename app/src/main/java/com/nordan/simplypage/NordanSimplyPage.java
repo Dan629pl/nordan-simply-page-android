@@ -191,16 +191,17 @@ public class NordanSimplyPage {
             }
             Optional.of(element.getRightSideIconDrawable())
                     .filter(value -> value != 0)
-                    .ifPresent(resId -> {
-                        Glide.with(activity).load(resId).into(headerImageRightSide);
+                    .map(resId -> {
                         headerImageRightSide.setVisibility(View.VISIBLE);
-                    });
+                        return Glide.with(activity).load(resId).into(headerImageRightSide);
+                    }).orElseGet(() -> Glide.with(activity).load(R.drawable.arrow_down).into(headerImageRightSide));
+
             Optional.of(element.getLeftSideIconDrawable())
                     .filter(value -> value != 0)
-                    .map(resId -> {
+                    .ifPresent(resId -> {
+                        Glide.with(activity).load(resId).into(headerImageLeftSide);
                         headerImageLeftSide.setVisibility(View.VISIBLE);
-                        return Glide.with(activity).load(resId).into(headerImageLeftSide);
-                    }).orElseGet(() -> Glide.with(activity).load(R.drawable.arrow_down).into(headerImageLeftSide));
+                    });
             headerTextItem.setText(element.getTitle());
             headerView.setOnClickListener(v -> {
                 if (!isResize[0]) {
@@ -305,16 +306,17 @@ public class NordanSimplyPage {
             radioGroup.setOnCheckedChangeListener(element.getOnCheckedChangeListener());
             Optional.of(element.getRightSideIconDrawable())
                     .filter(value -> value != 0)
-                    .ifPresent(resId -> {
-                        Glide.with(activity).load(resId).into(headerImageRightSide);
+                    .map(resId -> {
                         headerImageRightSide.setVisibility(View.VISIBLE);
-                    });
+                        return Glide.with(activity).load(resId).into(headerImageRightSide);
+                    }).orElseGet(() -> Glide.with(activity).load(R.drawable.arrow_down).into(headerImageRightSide));
+
             Optional.of(element.getLeftSideIconDrawable())
                     .filter(value -> value != 0)
-                    .map(resId -> {
+                    .ifPresent(resId -> {
+                        Glide.with(activity).load(resId).into(headerImageLeftSide);
                         headerImageLeftSide.setVisibility(View.VISIBLE);
-                        return Glide.with(activity).load(resId).into(headerImageLeftSide);
-                    }).orElseGet(() -> Glide.with(activity).load(R.drawable.arrow_down).into(headerImageLeftSide));
+                    });
             headerTextItem.setText(element.getTitle());
             headerView.setOnClickListener(v -> {
                 if (!isResize[0]) {
@@ -405,11 +407,10 @@ public class NordanSimplyPage {
 
     public NordanSimplyPage addSwitchItem(SwitchElement parElement) {
         Optional.ofNullable(parElement).ifPresent(element -> {
-
             RelativeLayout view = (RelativeLayout) layoutInflater.inflate(R.layout.switch_item_view, null);
             MaterialTextView textItem = view.findViewById(R.id.item_text);
             MaterialTextView subTextItem = view.findViewById(R.id.item_subtext);
-            SwitchMaterial switchItem = (SwitchMaterial) view.findViewById(R.id.switch_item);
+            SwitchMaterial switchItem = view.findViewById(R.id.switch_item);
             switchItem.setOnCheckedChangeListener(element.getOnCheckedChangeListener());
             textItem.setText(element.getTitle());
             switchItem.setChecked(element.isChecked());
@@ -600,6 +601,12 @@ public class NordanSimplyPage {
 
     public NordanSimplyPage addWebsite(String url, String title) {
         addItem(NordanSimplyPagePatterns.createWebsiteElement(url, title));
+        addSeparator();
+        return this;
+    }
+
+    public NordanSimplyPage addLinkedIn(String id) {
+        addItem(NordanSimplyPagePatterns.createLinkedInElement(id));
         addSeparator();
         return this;
     }

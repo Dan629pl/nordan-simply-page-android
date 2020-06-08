@@ -85,7 +85,6 @@ class NordanSimplyPagePatterns {
         Intent youTubeIntent = new Intent();
         youTubeIntent.setAction(Intent.ACTION_VIEW);
         youTubeIntent.setData(Uri.parse(String.format("http://youtube.com/channel/%s", youtubeChannelId)));
-
         if (NordanSimplyPage.isAppInstalled("com.google.android.youtube")) {
             youTubeIntent.setPackage("com.google.android.youtube");
         }
@@ -125,6 +124,20 @@ class NordanSimplyPagePatterns {
                 .build();
     }
 
+    static PageElement createLinkedInElement(String linkedInProfileId) {
+        Intent linkedInIntent = new Intent();
+        linkedInIntent.setAction(Intent.ACTION_VIEW);
+        linkedInIntent.setData(Uri.parse(String.format("https://www.linkedin.com/in/%s", linkedInProfileId)));
+        if (NordanSimplyPage.isAppInstalled("com.linkedin.android")) {
+            linkedInIntent.setPackage("com.linkedin.android");
+        }
+        return PageElement.builder()
+                .leftSideIconDrawable(R.drawable.linkedin_icon)
+                .title("Linkedin")
+                .intent(linkedInIntent)
+                .build();
+    }
+
     static PageElement createWebsiteElement(String url, String tittle) {
         if (!url.startsWith("http://") && !url.startsWith("https://")) {
             url = "http://" + url;
@@ -141,9 +154,11 @@ class NordanSimplyPagePatterns {
     static PageElement createSkypeElement(String skypeProfileId) {
         Intent skypeIntent = new Intent();
         skypeIntent.setAction(Intent.ACTION_VIEW);
-        skypeIntent.setData(Uri.parse("skype:" + skypeProfileId));
         if (NordanSimplyPage.isAppInstalled("com.skype.raider")) {
+            skypeIntent.setData(Uri.parse("skype:" + skypeProfileId + "?chat"));
             skypeIntent.setPackage("com.skype.raider");
+        } else {
+            skypeIntent.setData(Uri.parse("market://details?id=com.skype.raider"));
         }
         return PageElement.builder()
                 .leftSideIconDrawable(R.drawable.skype_icon)
