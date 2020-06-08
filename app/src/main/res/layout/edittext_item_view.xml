@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:orientation="vertical">
+  <RelativeLayout
+    android:id="@+id/relative_header"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center_vertical"
+    android:minHeight="64dp">
+    <ImageView
+      android:id="@+id/image_left"
+      style="@style/NordanPageItemImage"
+      android:contentDescription="@string/item_image_left_side"
+      tools:srcCompat="@tools:sample/avatars" />
+    <LinearLayout
+      android:id="@+id/linear_item"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_centerVertical="true"
+      android:layout_marginEnd="10dp"
+      android:layout_toStartOf="@+id/image_right"
+      android:layout_toEndOf="@+id/image_left"
+      android:orientation="vertical">
+      <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/item_text"
+        style="@style/NordanPageItemText"
+        android:text="@string/item_text" />
+      <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/item_subtext"
+        style="@style/NordanPageItemSubText"
+        android:text="@string/item_subtext"
+        android:visibility="visible" />
+    </LinearLayout>
+    <ImageView
+      android:id="@+id/image_right"
+      style="@style/NordanPageItemImage"
+      android:layout_alignParentEnd="true"
+      android:contentDescription="@string/item_image_right_side"
+      tools:srcCompat="@tools:sample/avatars" />
+  </RelativeLayout>
+  <com.google.android.material.textfield.TextInputLayout
+    android:id="@+id/edittext_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
+    android:visibility="gone"
+    app:boxStrokeWidth="1dp"
+    app:boxStrokeWidthFocused="1dp">
+    <com.google.android.material.textfield.TextInputEditText
+      android:id="@+id/item_edittext"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@android:color/transparent"
+      android:fontFamily="@font/product_sans_regular"
+      android:gravity="start"
+      android:inputType="textMultiLine"
+      android:textSize="19sp" />
+  </com.google.android.material.textfield.TextInputLayout>
+</LinearLayout>

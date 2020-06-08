@@ -23,10 +23,13 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import com.bumptech.glide.Glide;
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.switchmaterial.SwitchMaterial;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
 import com.nordan.simplypage.dto.AccountElement;
 import com.nordan.simplypage.dto.BaseElement;
 import com.nordan.simplypage.dto.CheckBoxElement;
+import com.nordan.simplypage.dto.EditableTextElement;
 import com.nordan.simplypage.dto.PageElement;
 import com.nordan.simplypage.dto.SeekBarElement;
 import com.nordan.simplypage.dto.SingleChoiceElement;
@@ -84,6 +87,66 @@ public class NordanSimplyPage {
         return addSingleBottomItem(copyRightsElement);
     }
 
+    public NordanSimplyPage addEditableTextItem(EditableTextElement parElement) {
+        Optional.ofNullable(parElement).ifPresent(element -> {
+            final boolean[] isResize = {false};
+            LinearLayout view = (LinearLayout) layoutInflater.inflate(R.layout.edittext_item_view, null);
+            RelativeLayout headerView = view.findViewById(R.id.relative_header);
+            ImageView headerImageLeftSide = headerView.findViewById(R.id.image_left);
+            ImageView headerImageRightSide = headerView.findViewById(R.id.image_right);
+            MaterialTextView headerTextItem = headerView.findViewById(R.id.item_text);
+            MaterialTextView headerSubTextItem = headerView.findViewById(R.id.item_subtext);
+            TextInputEditText editText = view.findViewById(R.id.item_edittext);
+            TextInputLayout textInputLayout = view.findViewById(R.id.edittext_layout);
+            headerSubTextItem.setVisibility(View.VISIBLE);
+            Optional.of(element.getRightSideIconDrawable())
+                    .filter(value -> value != 0)
+                    .map(resId -> {
+                        headerImageRightSide.setVisibility(View.VISIBLE);
+                        return Glide.with(activity).load(resId).into(headerImageRightSide);
+                    }).orElseGet(() -> Glide.with(activity).load(R.drawable.ic_twotone_edit_24).into(headerImageRightSide));
+            Optional.of(element.getLeftSideIconDrawable())
+                    .filter(value -> value != 0)
+                    .ifPresent(resId -> {
+                        Glide.with(activity).load(resId).into(headerImageLeftSide);
+                        headerImageLeftSide.setVisibility(View.VISIBLE);
+                    });
+            headerTextItem.setText(element.getTitle());
+            headerSubTextItem.setText(MessageFormat.format(element.getSubText(), element.getTextParams()));
+            OnEditTextChangeValueListener onEditTextChangeValueListener = element.getOnEditTextChangeValueListener();
+            headerView.setOnClickListener(v -> {
+                if (!isResize[0]) {
+                    isResize[0] = true;
+                    String subText = headerSubTextItem.getText().toString();
+                    for (int i = 0; i < element.getTextParams().length; i++) {
+                        subText = subText.replace(element.getTextParams()[i], "{" + i + "}");
+                    }
+                    TransitionManager.beginDelayedTransition(pageView.findViewById(R.id.page_provider), new ChangeBounds());
+                    textInputLayout.setVisibility(View.VISIBLE);
+                    editText.setText(subText);
+                    editText.setSelection(editText.getText().length());
+                    editText.requestFocus();
+                    headerSubTextItem.setVisibility(View.GONE);
+                } else {
+                    isResize[0] = false;
+                    TransitionManager.beginDelayedTransition(pageView.findViewById(R.id.page_provider));
+                    textInputLayout.setVisibility(View.GONE);
+                    headerSubTextItem.setText(MessageFormat.format(editText.getText().toString(), element.getTextParams()));
+                    headerSubTextItem.setVisibility(View.VISIBLE);
+                    if (!editText.getText().toString().equals(element.getSubText())) {
+                        onEditTextChangeValueListener.onNewValueSet(editText.getText().toString());
+                    }
+                }
+            });
+            TypedValue outValue = new TypedValue();
+            activity.getTheme().resolveAttribute(R.attr.selectableItemBackground, outValue, true);
+            headerView.setBackgroundResource(outValue.resourceId);
+            ((LinearLayout) pageView.findViewById(R.id.page_provider)).addView(view);
+            addSeparator();
+        });
+        return this;
+    }
+
     public NordanSimplyPage addSeekBarItem(SeekBarElement parElement) {
         Optional.ofNullable(parElement).ifPresent(element -> {
             final boolean[] isResize = {false};
@@ -99,7 +162,8 @@ public class NordanSimplyPage {
                 seekBar.setMin(element.getMinValue());
             }
             headerSubTextItem.setVisibility(View.VISIBLE);
-            headerSubTextItem.setText(MessageFormat.format("{0}{1}", element.getMinValue(), element.getSubText()));
+            String vale = Objects.isNull(element.getSubText()) ? "" : element.getSubText();
+            headerSubTextItem.setText(MessageFormat.format("{0}{1}", element.getMinValue(), vale));
             OnSeekBarChangeValueListener onSeekBarChangeValueListener = element.getOnSeekBarChangeValueListener();
             seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
                 @Override

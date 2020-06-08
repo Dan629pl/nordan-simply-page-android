@@ -11,7 +11,7 @@ Add this to your module's `build.gradle` file:
 ```gradle
 dependencies {
 	...
-    implementation 'com.github.Dan629pl:nordan-simply-page-android:1.0.9'
+    implementation 'com.github.Dan629pl:nordan-simply-page-android:1.1.0'
 }
 ```
 <h1>Nordan Simply Pages</h1>
@@ -62,22 +62,24 @@ dependencies {
 
 ```java
              	    ...
-                      View settingPage = new NordanSimplyPage(this)
-                               .addImageItem(R.drawable.nordan_logo, 300, 75)
-                               .addGroup(getString(R.string.account_group), R.drawable.account_icon, R.color.gray_font_color)
-                               .addAccountItem(createAccountElement())
-                               .addItem(createAccountConfirmedElement())
-                               .addMinimalItem(createSignOutElement())
-                               .addEmptyItem(30)
-                               .addGroup(R.drawable.settings_app_icon, "Application")
-                               .addSwitchItem(createThemeSwitcherElement())
-                               .addItem(createTimeRefreshElement())
-                               .addSingleRadioChoiceItem(createSingleChoiceElement())
-                               .addCheckBoxItem(createCheckBoxElement())
-                               .addCheckBoxItem(createCheckBoxExtendableElement())
-                               .addSeekBarItem(createSeekBarElement())
-                               .create();
-                       setContentView(settingPage);
+      View settingPage = new NordanSimplyPage(this)
+                .addImageItem(R.drawable.nordan_logo, 300, 75)
+                .addGroup(getString(R.string.account_group), R.drawable.account_icon, R.color.gray_font_color)
+                .addAccountItem(createAccountElement())
+                .addItem(createAccountConfirmedElement())
+                .addMinimalItem(createSignOutElement())
+                .addEmptyItem(30)
+                .addGroup(R.drawable.settings_app_icon, "Application")
+                .addSwitchItem(createThemeSwitcherElement())
+                .addItem(createTimeRefreshElement())
+                .addSingleRadioChoiceItem(createSingleChoiceElement())
+                .addCheckBoxItem(createCheckBoxElement())
+                .addCheckBoxItem(createCheckBoxExtendableElement())
+                .addSeekBarItem(createSeekBarElement())
+                .addEditTextItem(createEditTextElement())
+                .addEmptyItem(200)
+                .create();
+        setContentView(settingPage);
                      ...
 ```
 ## Screenshots
