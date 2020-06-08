@@ -16,6 +16,7 @@ public class EditableTextElement {
     @NonNull
     private OnEditTextChangeValueListener onEditTextChangeValueListener;
     private String[] textParams;
+    private String helperTextParams;
     private int rightSideIconDrawable;
     private int leftSideIconDrawable;
 }

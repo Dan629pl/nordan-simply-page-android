@@ -112,6 +112,10 @@ public class NordanSimplyPage {
                         headerImageLeftSide.setVisibility(View.VISIBLE);
                     });
             headerTextItem.setText(element.getTitle());
+            Optional.ofNullable(element.getHelperTextParams()).ifPresent(helperText -> {
+                textInputLayout.setHelperTextEnabled(true);
+                textInputLayout.setHelperText(helperText);
+            });
             headerSubTextItem.setText(MessageFormat.format(element.getSubText(), element.getTextParams()));
             OnEditTextChangeValueListener onEditTextChangeValueListener = element.getOnEditTextChangeValueListener();
             headerView.setOnClickListener(v -> {
@@ -206,12 +210,12 @@ public class NordanSimplyPage {
             headerView.setOnClickListener(v -> {
                 if (!isResize[0]) {
                     isResize[0] = true;
-                    Glide.with(activity).load(R.drawable.arrow_up).into(headerImageLeftSide);
+                    Glide.with(activity).load(R.drawable.arrow_up).into(headerImageRightSide);
                     TransitionManager.beginDelayedTransition(pageView.findViewById(R.id.page_provider), new ChangeBounds());
                     view.getChildAt(1).setVisibility(View.VISIBLE);
                 } else {
                     isResize[0] = false;
-                    Glide.with(activity).load(R.drawable.arrow_down).into(headerImageLeftSide);
+                    Glide.with(activity).load(R.drawable.arrow_down).into(headerImageRightSide);
                     TransitionManager.beginDelayedTransition(pageView.findViewById(R.id.page_provider));
                     view.getChildAt(1).setVisibility(View.GONE);
                 }
@@ -321,14 +325,14 @@ public class NordanSimplyPage {
             headerView.setOnClickListener(v -> {
                 if (!isResize[0]) {
                     isResize[0] = true;
-                    Glide.with(activity).load(R.drawable.arrow_up).into(headerImageLeftSide);
+                    Glide.with(activity).load(R.drawable.arrow_up).into(headerImageRightSide);
                     TransitionManager.beginDelayedTransition(pageView.findViewById(R.id.page_provider), new ChangeBounds());
                     for (int i = 1; i < view.getChildCount(); i++) {
                         view.getChildAt(i).setVisibility(View.VISIBLE);
                     }
                 } else {
                     isResize[0] = false;
-                    Glide.with(activity).load(R.drawable.arrow_down).into(headerImageLeftSide);
+                    Glide.with(activity).load(R.drawable.arrow_down).into(headerImageRightSide);
                     TransitionManager.beginDelayedTransition(pageView.findViewById(R.id.page_provider));
                     for (int i = 1; i < view.getChildCount(); i++) {
                         View childAt = view.getChildAt(i);
