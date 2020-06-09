@@ -23,7 +23,8 @@ public class SettingsSample extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View settingPage = new NordanSimplyPage(this)
-                .addImageItem(R.drawable.nordan_logo, 300, 75)
+                .hideSeparators(true)
+                .addImageItem(R.drawable.nordan_logo, 300, 100)
                 .addGroup(getString(R.string.account_group), R.drawable.account_icon, R.color.gray_font_color)
                 .addAccountItem(createAccountElement())
                 .addItem(createAccountConfirmedElement())
@@ -38,15 +39,15 @@ public class SettingsSample extends AppCompatActivity {
                 .addSeekBarItem(createSeekBarElement())
                 .addEditableTextItem(createEditTextElement())
                 .addSwitchItem(createExtendedSwitcherElement())
-                .addEmptyItem(200)
+                .addEmptyItem(100)
                 .create();
         setContentView(settingPage);
     }
 
     private EditableTextElement createEditTextElement() {
-        String[] array = {"FIRST PARAM", "SECOND PARAM"};
+        String[] array = {"123/45678A", "15"};
         return EditableTextElement.builder()
-                .title("Default message with params")
+                .title("View with editable text view")
                 .subText("Order number {0} ready for collection in {1} minutes.")
                 .helperTextParams("{0} -> Order number\n{1} -> minutes to collection")
                 .textParams(array)
@@ -72,21 +73,23 @@ public class SettingsSample extends AppCompatActivity {
         return CheckBoxElement.builder()
                 .title("Extendable CheckBox Element")
                 .isChecked(false)
-                .subText("Subtext is available here")
+                .subText("If you check this checkbox, you will see extended view")
                 .onCheckedChangeListener((buttonView, isChecked) -> {
                 })
-                .extendView(createExtendView())
+                .extendView(
+                        new NordanSimplyPage(this).addMinimalItem(BaseElement.builder().title("ITS YOUR EXTENDED VIEW!").build()).create())
                 .build();
     }
 
-    private View createExtendView() {
-        return new NordanSimplyPage(this)
-                .addGroup(R.color.gray_font_color, "Extended View")
-                .addCheckBoxItem(createCheckBoxElement())
-                .addPhone("123456789", "Call to me")
-                .addSwitchItem(createThemeSwitcherElement())
-                .addSingleRadioChoiceItem(createSingleChoiceElement())
-                .create();
+    private SwitchElement createExtendedSwitcherElement() {
+        return SwitchElement.builder()
+                .title("Extendable Switcher Element")
+                .isChecked(false)
+                .subText("If you switch on this, you will see extended view")
+                .onCheckedChangeListener((buttonView, isChecked) -> {/* DO SOMETHING HERE */})
+                .extendView(
+                        new NordanSimplyPage(this).addMinimalItem(BaseElement.builder().title("ITS YOUR EXTENDED VIEW!").build()).create())
+                .build();
     }
 
     private CheckBoxElement createCheckBoxElement() {
@@ -136,23 +139,12 @@ public class SettingsSample extends AppCompatActivity {
     private SwitchElement createThemeSwitcherElement() {
         return SwitchElement.builder()
                 .title("Dark mode")
-                .isChecked(true)
+                .isChecked(false)
                 .subText("Switch to enable dark mode application.")
-                .onCheckedChangeListener(
-                        (buttonView, isChecked) -> Toast.makeText(this, "IS CHECKED: " + isChecked, Toast.LENGTH_SHORT).show())
+                .onCheckedChangeListener((buttonView, isChecked) -> {/* DO SOMETHING HERE */})
                 .build();
     }
 
-    private SwitchElement createExtendedSwitcherElement() {
-        return SwitchElement.builder()
-                .title("Extend view")
-                .isChecked(false)
-                .subText("If you switch on this, you will see extended view")
-                .onCheckedChangeListener((buttonView, isChecked) -> {/* DO SOMETHING HERE */})
-                .extendView(
-                        new NordanSimplyPage(this).addMinimalItem(BaseElement.builder().title("ITS YOUR EXTENDED VIEW!").build()).create())
-                .build();
-    }
 
     private AccountElement createAccountElement() {
         return AccountElement.builder()

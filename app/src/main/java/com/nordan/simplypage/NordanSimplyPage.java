@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -50,6 +51,7 @@ public class NordanSimplyPage {
     static Activity activity;
     private final LayoutInflater layoutInflater;
     private final View pageView;
+    private boolean isHideSeparators = false;
 
     public NordanSimplyPage(Activity activity) {
         NordanSimplyPage.activity = activity;
@@ -67,6 +69,10 @@ public class NordanSimplyPage {
                 .anyMatch(appName::equals);
     }
 
+    public NordanSimplyPage hideSeparators(boolean hide) {
+        isHideSeparators = hide;
+        return this;
+    }
 
     public NordanSimplyPage addEmptyItem() {
         return addEmptyItem(64);
@@ -135,6 +141,7 @@ public class NordanSimplyPage {
                     editText.requestFocus();
                     headerSubTextItem.setVisibility(View.GONE);
                 } else {
+                    hideKeyboard();
                     isResize[0] = false;
                     TransitionManager.beginDelayedTransition(pageView.findViewById(R.id.page_provider));
                     textInputLayout.setVisibility(View.GONE);
@@ -299,17 +306,17 @@ public class NordanSimplyPage {
             RadioGroup radioGroup = view.findViewById(R.id.radio_group);
             for (int i = 0; i < element.getElements().size(); i++) {
                 RadioButton radioButton = (RadioButton) layoutInflater.inflate(R.layout.radio_button, null);
-                if (element.getElements().get(i).equalsIgnoreCase(element.getSelectedValue())) {
-                    radioButton.setChecked(true);
-                    headerSubTextItem.setVisibility(View.VISIBLE);
-                    headerSubTextItem.setText(element.getElements().get(i));
-                }
                 radioButton.setText(element.getElements().get(i));
                 radioButton.setOnClickListener(v -> {
                     headerSubTextItem.setText(radioButton.getText());
                     headerSubTextItem.setVisibility(View.VISIBLE);
                 });
                 radioGroup.addView(radioButton);
+                if (element.getElements().get(i).equalsIgnoreCase(element.getSelectedValue())) {
+                    radioButton.setChecked(true);
+                    headerSubTextItem.setVisibility(View.VISIBLE);
+                    headerSubTextItem.setText(element.getElements().get(i));
+                }
             }
             radioGroup.setOnCheckedChangeListener(element.getOnCheckedChangeListener());
             Optional.of(element.getRightSideIconDrawable())
@@ -577,6 +584,10 @@ public class NordanSimplyPage {
     }
 
     public NordanSimplyPage addSeparator() {
+        if (isHideSeparators) {
+            addEmptyItem(5);
+            return this;
+        }
         int dimensionPixelSize = activity.getResources().getDimensionPixelSize(R.dimen.nordan_simply_page_separator_height);
         ((LinearLayout) pageView.findViewById(R.id.page_provider))
                 .addView(getSeparator(), new LayoutParams(MATCH_PARENT, dimensionPixelSize));
@@ -665,5 +676,14 @@ public class NordanSimplyPage {
 
     private View getSeparator() {
         return activity.getLayoutInflater().inflate(R.layout.separator_item, null);
+    }
+
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        View view = activity.getCurrentFocus();
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }
