@@ -1,5 +1,6 @@
 package com.nordan.simplypage.dto;
 
+import android.view.View;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,4 +16,5 @@ public class SwitchElement {
     private boolean isChecked;
     @NonNull
     private OnCheckedChangeListener onCheckedChangeListener;
+    private View extendView;
 }

@@ -235,7 +235,7 @@ public class NordanSimplyPage {
 
     public NordanSimplyPage addCheckBoxItem(CheckBoxElement parElement) {
         Optional.ofNullable(parElement).ifPresent(element -> {
-            LinearLayout view = (LinearLayout) layoutInflater.inflate(R.layout.checkbox_extendable_view, null);
+            LinearLayout view = (LinearLayout) layoutInflater.inflate(R.layout.checkbox_extendable_item_view, null);
             RelativeLayout headerView = view.findViewById(R.id.head_item);
             MaterialCheckBox checkBox = headerView.findViewById(R.id.checkbox_item);
             ImageView headerImageRightSide = headerView.findViewById(R.id.image_right);
@@ -296,18 +296,19 @@ public class NordanSimplyPage {
             ImageView headerImageRightSide = headerView.findViewById(R.id.image_right);
             MaterialTextView headerTextItem = headerView.findViewById(R.id.item_text);
             MaterialTextView headerSubTextItem = headerView.findViewById(R.id.item_subtext);
-            headerSubTextItem.setVisibility(View.VISIBLE);
             RadioGroup radioGroup = view.findViewById(R.id.radio_group);
-            headerSubTextItem.setText(element.getElements().get(0));
             for (int i = 0; i < element.getElements().size(); i++) {
                 RadioButton radioButton = (RadioButton) layoutInflater.inflate(R.layout.radio_button, null);
                 if (element.getElements().get(i).equalsIgnoreCase(element.getSelectedValue())) {
                     radioButton.setChecked(true);
+                    headerSubTextItem.setVisibility(View.VISIBLE);
                     headerSubTextItem.setText(element.getElements().get(i));
                 }
-                radioButton.setId(i);
                 radioButton.setText(element.getElements().get(i));
-                radioButton.setOnClickListener(v -> headerSubTextItem.setText(radioButton.getText()));
+                radioButton.setOnClickListener(v -> {
+                    headerSubTextItem.setText(radioButton.getText());
+                    headerSubTextItem.setVisibility(View.VISIBLE);
+                });
                 radioGroup.addView(radioButton);
             }
             radioGroup.setOnCheckedChangeListener(element.getOnCheckedChangeListener());
@@ -415,10 +416,11 @@ public class NordanSimplyPage {
 
     public NordanSimplyPage addSwitchItem(SwitchElement parElement) {
         Optional.ofNullable(parElement).ifPresent(element -> {
-            RelativeLayout view = (RelativeLayout) layoutInflater.inflate(R.layout.switch_item_view, null);
-            MaterialTextView textItem = view.findViewById(R.id.item_text);
-            MaterialTextView subTextItem = view.findViewById(R.id.item_subtext);
-            SwitchMaterial switchItem = view.findViewById(R.id.switch_item);
+            LinearLayout view = (LinearLayout) layoutInflater.inflate(R.layout.switch_extendable_item_view, null);
+            RelativeLayout headerView = view.findViewById(R.id.head_item);
+            MaterialTextView textItem = headerView.findViewById(R.id.item_text);
+            MaterialTextView subTextItem = headerView.findViewById(R.id.item_subtext);
+            SwitchMaterial switchItem = headerView.findViewById(R.id.switch_item);
             switchItem.setOnCheckedChangeListener(element.getOnCheckedChangeListener());
             textItem.setText(element.getTitle());
             switchItem.setChecked(element.isChecked());
@@ -428,6 +430,26 @@ public class NordanSimplyPage {
                         subTextItem.setText(subText);
                         subTextItem.setVisibility(View.VISIBLE);
                     });
+            Optional.ofNullable(element.getExtendView()).ifPresent(extendView -> {
+                extendView.setVisibility(View.GONE);
+                view.addView(extendView);
+            });
+            switchItem.setOnClickListener(v -> {
+                TransitionManager.endTransitions(pageView.findViewById(R.id.page_provider));
+                if (switchItem.isChecked() && Objects.nonNull(element.getExtendView())) {
+                    TransitionManager.beginDelayedTransition(pageView.findViewById(R.id.page_provider), new ChangeBounds());
+                    for (int i = 1; i < view.getChildCount(); i++) {
+                        view.getChildAt(i).setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    TransitionManager.beginDelayedTransition(pageView.findViewById(R.id.page_provider));
+                    for (int i = 1; i < view.getChildCount(); i++) {
+                        View childAt = view.getChildAt(i);
+                        TransitionManager.beginDelayedTransition((ViewGroup) childAt, new ChangeBounds());
+                        childAt.setVisibility(View.GONE);
+                    }
+                }
+            });
             ((LinearLayout) pageView.findViewById(R.id.page_provider)).addView(view);
             addSeparator();
         });

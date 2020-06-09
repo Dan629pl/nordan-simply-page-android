@@ -11,7 +11,7 @@ Add this to your module's `build.gradle` file:
 ```gradle
 dependencies {
 	...
-    implementation 'com.github.Dan629pl:nordan-simply-page-android:1.1.2'
+    implementation 'com.github.Dan629pl:nordan-simply-page-android:1.1.3'
 }
 ```
 <h1>Nordan Simply Pages</h1>
@@ -20,35 +20,35 @@ dependencies {
 
 ```java
         ...
-        View simplyPage = new NordanSimplyPage(this)
-                .addImageItem(R.drawable.nordan_logo)
-                .addDescriptionItem(R.string.lorem_ipsum)
-                .addSeparator()
-                .addGroup("Contact", R.color.gray_font_color)
-                .addPhone("123456789", "Call to me")
-                .addEmail("email address", "Write me an email")
-                .addSms("123456789", "Send message to me", "Sms message")
-                .addGroup("Check my socials", R.color.gray_font_color)
-                .addFacebook("facebookId")
-                .addInstagram("instagramId")
-                .addGithub("githubId")
-                .addGooglePlayStore("com.google.android.googlequicksearchbox")
-                .addYoutube("channelId")
-                .addWebsite("https://www.google.com", "Website")
-                .addSkype("profileId")
-                .addLinkedIn("daniel-owczarczyk-8b89a6150")
-                .addTwitter("profileId")
-                .addGroup(R.mipmap.ic_launcher_round, "Other groups (with left side image)")
-                .addMinimalItem(BaseElement.builder().title("Minimal item (only text view)").build())
-                .addEmptyItem()
-                .addMinimalItem(
-                        BaseElement.builder()
-                                .title("Version " + BuildConfig.VERSION_NAME)
-                                .gravity(Gravity.CENTER_HORIZONTAL)
-                                .build())
-                .addCopyRightsItem()
-                .create();
-        setContentView(simplyPage);
+    View simplyPage = new NordanSimplyPage(this)
+                  .addImageItem(R.drawable.nordan_logo)
+                  .addDescriptionItem(R.string.lorem_ipsum)
+                  .addSeparator()
+                  .addGroup("Contact", R.color.gray_font_color)
+                  .addPhone("123456789", "Call to me")
+                  .addEmail("email address", "Write me an email")
+                  .addSms("123456789", "Send message to me", "Sms message")
+                  .addGroup("Check my socials", R.color.gray_font_color)
+                  .addFacebook("facebookId")
+                  .addInstagram("instagramId")
+                  .addGithub("githubId")
+                  .addGooglePlayStore("com.google.android.googlequicksearchbox")
+                  .addYoutube("channelId")
+                  .addWebsite("https://www.google.com", "Website")
+                  .addSkype("profileId")
+                  .addLinkedIn("daniel-owczarczyk-8b89a6150")
+                  .addTwitter("profileId")
+                  .addGroup(R.mipmap.ic_launcher_round, "Other groups (with left side image)")
+                  .addMinimalItem(BaseElement.builder().title("Minimal item (only text view)").build())
+                  .addEmptyItem()
+                  .addMinimalItem(
+                          BaseElement.builder()
+                                  .title("Version " + BuildConfig.VERSION_NAME)
+                                  .gravity(Gravity.CENTER)
+                                  .build())
+                  .addCopyRightsItem()
+                  .create();
+          setContentView(simplyPage);
             ...
 ```
 ## Screenshots

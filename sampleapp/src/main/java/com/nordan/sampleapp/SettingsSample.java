@@ -37,6 +37,7 @@ public class SettingsSample extends AppCompatActivity {
                 .addCheckBoxItem(createCheckBoxExtendableElement())
                 .addSeekBarItem(createSeekBarElement())
                 .addEditableTextItem(createEditTextElement())
+                .addSwitchItem(createExtendedSwitcherElement())
                 .addEmptyItem(200)
                 .create();
         setContentView(settingPage);
@@ -49,6 +50,7 @@ public class SettingsSample extends AppCompatActivity {
                 .subText("Order number {0} ready for collection in {1} minutes.")
                 .helperTextParams("{0} -> Order number\n{1} -> minutes to collection")
                 .textParams(array)
+                .leftSideIconDrawable(R.drawable.message_icon)
                 .onEditTextChangeValueListener(newValue -> Toast.makeText(this, newValue, Toast.LENGTH_LONG).show())
                 .build();
     }
@@ -56,10 +58,11 @@ public class SettingsSample extends AppCompatActivity {
     private SeekBarElement createSeekBarElement() {
         return SeekBarElement.builder()
                 .title("SeekBar Element")
-                .subText(" Special subtext")
-                .progress(20)
+                .leftSideIconDrawable(R.drawable.hourglass_icon)
+                .subText(" hours")
+                .progress(12)
                 .minValue(1)
-                .maxValue(30)
+                .maxValue(24)
                 .onSeekBarChangeValueListener(
                         newValue -> Toast.makeText(SettingsSample.this, "New value: " + newValue, Toast.LENGTH_SHORT).show())
                 .build();
@@ -99,8 +102,9 @@ public class SettingsSample extends AppCompatActivity {
     private SingleChoiceElement createSingleChoiceElement() {
         return SingleChoiceElement.builder()
                 .title("Single choice element")
-                .elements(Arrays.asList("Never", "Ever", "Give up"))
-                .selectedValue("Ever")
+                .elements(Arrays.asList("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"))
+                .selectedValue("Friday")
+                .leftSideIconDrawable(R.drawable.calendar_icon)
                 .onCheckedChangeListener(
                         (group, checkedId) -> Toast.makeText(this, "Select " + checkedId + " index element", Toast.LENGTH_SHORT).show())
                 .build();
@@ -136,6 +140,17 @@ public class SettingsSample extends AppCompatActivity {
                 .subText("Switch to enable dark mode application.")
                 .onCheckedChangeListener(
                         (buttonView, isChecked) -> Toast.makeText(this, "IS CHECKED: " + isChecked, Toast.LENGTH_SHORT).show())
+                .build();
+    }
+
+    private SwitchElement createExtendedSwitcherElement() {
+        return SwitchElement.builder()
+                .title("Extend view")
+                .isChecked(false)
+                .subText("If you switch on this, you will see extended view")
+                .onCheckedChangeListener((buttonView, isChecked) -> {/* DO SOMETHING HERE */})
+                .extendView(
+                        new NordanSimplyPage(this).addMinimalItem(BaseElement.builder().title("ITS YOUR EXTENDED VIEW!").build()).create())
                 .build();
     }
 
