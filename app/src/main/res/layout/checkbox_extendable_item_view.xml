@@ -28,8 +28,8 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_centerVertical="true"
-      android:layout_toEndOf="@+id/relative_checkbox"
       android:layout_toStartOf="@+id/image_right"
+      android:layout_toEndOf="@+id/relative_checkbox"
       android:orientation="vertical">
       <com.google.android.material.textview.MaterialTextView
         android:id="@+id/item_text"

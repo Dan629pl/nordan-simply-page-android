@@ -6,9 +6,9 @@
   android:focusable="true"
   android:minHeight="64dp">
   <com.google.android.material.textview.MaterialTextView
-    android:layout_centerVertical="true"
     android:id="@+id/item_text"
     style="@style/NordanPageItemText"
+    android:layout_centerVertical="true"
     android:layout_marginStart="64dp"
     android:text="@string/item_text" />
 </RelativeLayout>

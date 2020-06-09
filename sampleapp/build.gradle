@@ -8,7 +8,7 @@ android {
         minSdkVersion 24
         targetSdkVersion 29
         versionCode 1
-        versionName "Nordan Simply Page v1.1.3"
+        versionName "Nordan Simply Page v1.1.4"
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
