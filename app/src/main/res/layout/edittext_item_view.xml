@@ -23,7 +23,6 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_centerVertical="true"
-      android:layout_marginEnd="10dp"
       android:layout_toStartOf="@+id/image_right"
       android:layout_toEndOf="@+id/image_left"
       android:orientation="vertical">
