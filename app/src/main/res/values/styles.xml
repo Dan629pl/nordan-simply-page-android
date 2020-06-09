@@ -3,10 +3,12 @@
   <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
     <item name="colorAccent">@color/gray_font_color</item>
   </style>
+
   <style name="NordanPageItemImage">
     <item name="android:adjustViewBounds">true</item>
     <item name="android:layout_margin">16dp</item>
     <item name="android:layout_width">32dp</item>
+    <item name="android:layout_centerVertical">true</item>
     <item name="android:layout_height">32dp</item>
   </style>
 

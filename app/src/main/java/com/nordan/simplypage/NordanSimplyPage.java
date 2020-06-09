@@ -1,5 +1,8 @@
 package com.nordan.simplypage;
 
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContextWrapper;
@@ -72,7 +75,7 @@ public class NordanSimplyPage {
     public NordanSimplyPage addEmptyItem(int height) {
         int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, height, activity.getResources().getDisplayMetrics());
         RelativeLayout view = new RelativeLayout(activity);
-        LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, px);
+        LayoutParams layoutParams = new LayoutParams(MATCH_PARENT, px);
         view.setLayoutParams(layoutParams);
         ((LinearLayout) pageView.findViewById(R.id.page_provider)).addView(view);
         return this;
@@ -359,9 +362,10 @@ public class NordanSimplyPage {
             MaterialTextView textItem = view.findViewById(R.id.item_text);
             textItem.setText(parElement.getTitle());
             if (parElement.getGravity() != 0) {
-                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
                 params.setMargins(0, 0, 0, 0);
                 view.setGravity(parElement.getGravity());
+                view.setMinimumHeight(WRAP_CONTENT);
                 textItem.setLayoutParams(params);
             }
             if (bottomLinear.getChildCount() > 0) {
@@ -394,9 +398,9 @@ public class NordanSimplyPage {
             textItem.setText(element.getTitle());
             if (element.getGravity() != 0) {
                 int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 64, activity.getResources().getDisplayMetrics());
-                RelativeLayout.LayoutParams viewParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, px);
-                RelativeLayout.LayoutParams textParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
-                        LayoutParams.WRAP_CONTENT);
+                RelativeLayout.LayoutParams viewParams = new RelativeLayout.LayoutParams(MATCH_PARENT, px);
+                RelativeLayout.LayoutParams textParams = new RelativeLayout.LayoutParams(WRAP_CONTENT,
+                        WRAP_CONTENT);
                 view.setLayoutParams(viewParams);
                 view.setGravity(element.getGravity());
                 textItem.setLayoutParams(textParams);
@@ -553,7 +557,7 @@ public class NordanSimplyPage {
     public NordanSimplyPage addSeparator() {
         int dimensionPixelSize = activity.getResources().getDimensionPixelSize(R.dimen.nordan_simply_page_separator_height);
         ((LinearLayout) pageView.findViewById(R.id.page_provider))
-                .addView(getSeparator(), new LayoutParams(LayoutParams.MATCH_PARENT, dimensionPixelSize));
+                .addView(getSeparator(), new LayoutParams(MATCH_PARENT, dimensionPixelSize));
         return this;
     }
 

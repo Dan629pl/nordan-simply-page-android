@@ -37,7 +37,7 @@ public class AboutUsSample extends FragmentActivity {
                 .addMinimalItem(
                         BaseElement.builder()
                                 .title("Version " + BuildConfig.VERSION_NAME)
-                                .gravity(Gravity.CENTER_HORIZONTAL)
+                                .gravity(Gravity.CENTER)
                                 .build())
                 .addCopyRightsItem()
                 .create();
