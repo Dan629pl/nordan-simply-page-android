@@ -53,11 +53,6 @@ dependencies {
 ```
 ## Screenshots
 
-![Gif About_Us](https://github.com/Dan629pl/NordanSimplyPage/blob/master/img/page_gif.gif)
-
-
-
-![Screenshots](https://github.com/Dan629pl/NordanSimplyPage/blob/master/img/screenshot_side_hr.png)
 
 <h3>Settings Page Style</h3>
 
@@ -85,11 +80,6 @@ dependencies {
 ```
 ## Screenshots
 
-![Gif Settings_Page](https://github.com/Dan629pl/NordanSimplyPage/blob/master/img/setting_page.gif)
-
-![Gif Settings_Page2](https://github.com/Dan629pl/NordanSimplyPage/blob/master/img/setting_page2.gif)
-
-![Screenshots](https://github.com/Dan629pl/NordanSimplyPage/blob/master/img/settings_hr.png)
 
 ## Donation
 If this library  help you reduce time to develop, you can buy me a coffee! :) 
