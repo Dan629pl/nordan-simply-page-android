@@ -1,6 +1,7 @@
 package com.nordan.simplypage.dto;
 
 import com.nordan.simplypage.OnSeekBarChangeValueListener;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
@@ -17,8 +18,6 @@ public class SeekBarElement {
     @NonNull
     private OnSeekBarChangeValueListener onSeekBarChangeValueListener;
     private int progress;
-    @NonNull
     private int minValue;
-    @NonNull
     private int maxValue;
 }
