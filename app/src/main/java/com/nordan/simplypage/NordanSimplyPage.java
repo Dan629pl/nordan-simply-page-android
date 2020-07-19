@@ -1,11 +1,6 @@
 package com.nordan.simplypage;
 
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
-import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
-
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.ContextWrapper;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.transition.ChangeBounds;
@@ -24,6 +19,9 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
+
+import androidx.appcompat.widget.AppCompatEditText;
+
 import com.bumptech.glide.Glide;
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.switchmaterial.SwitchMaterial;
@@ -38,35 +36,30 @@ import com.nordan.simplypage.dto.PageElement;
 import com.nordan.simplypage.dto.SeekBarElement;
 import com.nordan.simplypage.dto.SingleChoiceElement;
 import com.nordan.simplypage.dto.SwitchElement;
+
 import java.text.MessageFormat;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
+
 import lombok.NonNull;
+
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class NordanSimplyPage {
 
-    @SuppressLint("StaticFieldLeak")
-    static Activity activity;
+    private final Activity activity;
     private final LayoutInflater layoutInflater;
     private final View pageView;
+    private final NordanSimplyPagePatterns nordanSimplyPagePatterns;
     private boolean isHideSeparators = false;
 
     public NordanSimplyPage(Activity activity) {
-        NordanSimplyPage.activity = activity;
+        this.activity = activity;
         this.layoutInflater = LayoutInflater.from(activity);
         this.pageView = layoutInflater.inflate(R.layout.nordan_page_activity, null);
-    }
-
-    static boolean isAppInstalled(String appName) {
-        return Optional.ofNullable(activity)
-                .map(ContextWrapper::getPackageManager)
-                .map(packageManager -> packageManager.getInstalledPackages(0))
-                .orElse(Collections.emptyList())
-                .stream()
-                .map(packageInfo -> packageInfo.packageName)
-                .anyMatch(appName::equals);
+        nordanSimplyPagePatterns = new NordanSimplyPagePatterns(activity);
     }
 
     public NordanSimplyPage hideSeparators(boolean hide) {
@@ -125,9 +118,13 @@ public class NordanSimplyPage {
                 textInputLayout.setHelperTextEnabled(true);
                 textInputLayout.setHelperText(helperText);
             });
-            headerSubTextItem.setText(MessageFormat.format(element.getSubText(), element.getTextParams()));
+            headerSubTextItem.setText(MessageFormat.format(element.getSubText(), (Object[]) element.getTextParams()));
             OnEditTextChangeValueListener onEditTextChangeValueListener = element.getOnEditTextChangeValueListener();
             headerView.setOnClickListener(v -> {
+                String editableText = Optional.of(editText)
+                        .map(AppCompatEditText::getText)
+                        .map(Objects::toString)
+                        .orElse("");
                 if (!isResize[0]) {
                     isResize[0] = true;
                     String subText = headerSubTextItem.getText().toString();
@@ -137,7 +134,7 @@ public class NordanSimplyPage {
                     TransitionManager.beginDelayedTransition(pageView.findViewById(R.id.page_provider), new ChangeBounds());
                     textInputLayout.setVisibility(View.VISIBLE);
                     editText.setText(subText);
-                    editText.setSelection(editText.getText().length());
+                    editText.setSelection(editableText.length());
                     editText.requestFocus();
                     headerSubTextItem.setVisibility(View.GONE);
                 } else {
@@ -145,10 +142,10 @@ public class NordanSimplyPage {
                     isResize[0] = false;
                     TransitionManager.beginDelayedTransition(pageView.findViewById(R.id.page_provider));
                     textInputLayout.setVisibility(View.GONE);
-                    headerSubTextItem.setText(MessageFormat.format(editText.getText().toString(), element.getTextParams()));
+                    headerSubTextItem.setText(MessageFormat.format(editableText, (Object[]) element.getTextParams()));
                     headerSubTextItem.setVisibility(View.VISIBLE);
-                    if (!editText.getText().toString().equals(element.getSubText())) {
-                        onEditTextChangeValueListener.onNewValueSet(editText.getText().toString());
+                    if (!editableText.equals(element.getSubText())) {
+                        onEditTextChangeValueListener.onNewValueSet(editableText);
                     }
                 }
             });
@@ -497,7 +494,11 @@ public class NordanSimplyPage {
                         subTextItem.setText(subText);
                         subTextItem.setVisibility(View.VISIBLE);
                     });
-            if (element.getGravity() != 0) {/*TODO*/}
+            if (element.getGravity() != 0) {
+                int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 64, activity.getResources().getDisplayMetrics());
+                view.setLayoutParams(new RelativeLayout.LayoutParams(MATCH_PARENT, px));
+                view.setGravity(element.getGravity());
+            }
             LinearLayout wrapper = pageView.findViewById(R.id.page_provider);
             wrapper.addView(view);
             addSeparator();
@@ -595,31 +596,31 @@ public class NordanSimplyPage {
     }
 
     public NordanSimplyPage addFacebook(String id) {
-        addItem(NordanSimplyPagePatterns.createFacebookElement(id));
+        addItem(nordanSimplyPagePatterns.createFacebookElement(id));
         addSeparator();
         return this;
     }
 
-    public NordanSimplyPage addGooglePlayStore(String id) {
-        addItem(NordanSimplyPagePatterns.createGooglePlayStoreElement(id));
+    public NordanSimplyPage addGooglePlayDeveloperPage(String developerId) {
+        addItem(nordanSimplyPagePatterns.createGooglePlayDeveloperPageElement(developerId));
         addSeparator();
         return this;
     }
 
     public NordanSimplyPage addGithub(String id) {
-        addItem(NordanSimplyPagePatterns.createGithubElement(id));
+        addItem(nordanSimplyPagePatterns.createGithubElement(id));
         addSeparator();
         return this;
     }
 
     public NordanSimplyPage addInstagram(String id) {
-        addItem(NordanSimplyPagePatterns.createInstagramElement(id));
+        addItem(nordanSimplyPagePatterns.createInstagramElement(id));
         addSeparator();
         return this;
     }
 
     public NordanSimplyPage addEmail(String email, String title) {
-        addItem(NordanSimplyPagePatterns.createEmailElement(email, title));
+        addItem(nordanSimplyPagePatterns.createEmailElement(email, title));
         addSeparator();
         return this;
     }
@@ -629,43 +630,43 @@ public class NordanSimplyPage {
     }
 
     public NordanSimplyPage addPhone(String phoneNumber, String title) {
-        addItem(NordanSimplyPagePatterns.createPhoneItem(phoneNumber, title));
+        addItem(nordanSimplyPagePatterns.createPhoneItem(phoneNumber, title));
         addSeparator();
         return this;
     }
 
     public NordanSimplyPage addSms(String phoneNumber, String title, String messageText) {
-        addItem(NordanSimplyPagePatterns.createMessageItem(phoneNumber, title, messageText));
+        addItem(nordanSimplyPagePatterns.createMessageItem(phoneNumber, title, messageText));
         addSeparator();
         return this;
     }
 
     public NordanSimplyPage addWebsite(String url, String title) {
-        addItem(NordanSimplyPagePatterns.createWebsiteElement(url, title));
+        addItem(nordanSimplyPagePatterns.createWebsiteElement(url, title));
         addSeparator();
         return this;
     }
 
     public NordanSimplyPage addLinkedIn(String id) {
-        addItem(NordanSimplyPagePatterns.createLinkedInElement(id));
+        addItem(nordanSimplyPagePatterns.createLinkedInElement(id));
         addSeparator();
         return this;
     }
 
     public NordanSimplyPage addSkype(String id) {
-        addItem(NordanSimplyPagePatterns.createSkypeElement(id));
+        addItem(nordanSimplyPagePatterns.createSkypeElement(id));
         addSeparator();
         return this;
     }
 
     public NordanSimplyPage addYoutube(String id) {
-        addItem(NordanSimplyPagePatterns.createYoutubeElement(id));
+        addItem(nordanSimplyPagePatterns.createYoutubeElement(id));
         addSeparator();
         return this;
     }
 
     public NordanSimplyPage addTwitter(String id) {
-        addItem(NordanSimplyPagePatterns.createTwitterElement(id));
+        addItem(nordanSimplyPagePatterns.createTwitterElement(id));
         addSeparator();
         return this;
     }
