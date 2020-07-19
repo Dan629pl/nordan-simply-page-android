@@ -601,8 +601,8 @@ public class NordanSimplyPage {
         return this;
     }
 
-    public NordanSimplyPage addGooglePlayStore(String id) {
-        addItem(nordanSimplyPagePatterns.createGooglePlayStoreElement(id));
+    public NordanSimplyPage addGooglePlayDeveloperPage(String developerId) {
+        addItem(nordanSimplyPagePatterns.createGooglePlayDeveloperPageElement(developerId));
         addSeparator();
         return this;
     }

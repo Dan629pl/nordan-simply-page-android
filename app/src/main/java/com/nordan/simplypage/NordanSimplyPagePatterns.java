@@ -23,6 +23,7 @@ class NordanSimplyPagePatterns {
                 .map(packageManager -> packageManager.getInstalledPackages(0))
                 .orElse(Collections.emptyList())
                 .stream()
+                .filter(packageInfo -> packageInfo.applicationInfo.enabled)
                 .map(packageInfo -> packageInfo.packageName)
                 .anyMatch(appName::equals);
     }
@@ -74,19 +75,18 @@ class NordanSimplyPagePatterns {
                 .build();
     }
 
-    PageElement createGooglePlayStoreElement(String googlePlayStoreId) {
-        Uri uri = Uri.parse("market://details?id=" + googlePlayStoreId);
+    PageElement createGooglePlayDeveloperPageElement(String developerId) {
+        Uri uri = Uri.parse("https://play.google.com/store/apps/dev?id=" + developerId);
         Intent googlePlayStoreIntent = new Intent(Intent.ACTION_VIEW, uri);
         return PageElement.builder()
                 .leftSideIconDrawable(R.drawable.google_play_icon)
-                .title("Google Play Store")
+                .title("Google Play")
                 .intent(googlePlayStoreIntent)
                 .build();
     }
 
     PageElement createYoutubeElement(String youtubeChannelId) {
-        Intent youTubeIntent = new Intent();
-        youTubeIntent.setAction(Intent.ACTION_VIEW);
+        Intent youTubeIntent = new Intent(Intent.ACTION_VIEW);
         youTubeIntent.setData(Uri.parse(String.format("http://youtube.com/channel/%s", youtubeChannelId)));
         if (isAppInstalled("com.google.android.youtube")) {
             youTubeIntent.setPackage("com.google.android.youtube");
@@ -155,13 +155,12 @@ class NordanSimplyPagePatterns {
     }
 
     PageElement createSkypeElement(String skypeProfileId) {
-        Intent skypeIntent = new Intent();
-        skypeIntent.setAction(Intent.ACTION_VIEW);
+        Intent skypeIntent = new Intent(Intent.ACTION_VIEW);
         if (isAppInstalled("com.skype.raider")) {
             skypeIntent.setData(Uri.parse("skype:" + skypeProfileId + "?chat"));
             skypeIntent.setPackage("com.skype.raider");
         } else {
-            skypeIntent.setData(Uri.parse("market://details?id=com.skype.raider"));
+            skypeIntent.setData(Uri.parse("https://play.google.com/store/apps/details?id=com.skype.raider"));
         }
         return PageElement.builder()
                 .leftSideIconDrawable(R.drawable.skype_icon)

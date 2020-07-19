@@ -25,7 +25,7 @@ public class AboutUsSample extends FragmentActivity {
                 .addFacebook("facebookId")
                 .addInstagram("instagramId")
                 .addGithub("githubId")
-                .addGooglePlayStore("com.google.android.googlequicksearchbox")
+                .addGooglePlayDeveloperPage("5301320783716798716")
                 .addYoutube("channelId")
                 .addWebsite("https://www.google.com", "Website")
                 .addSkype("profileId")
