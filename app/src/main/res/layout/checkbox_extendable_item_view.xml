@@ -1,51 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:tools="http://schemas.android.com/tools"
-  android:layout_width="match_parent"
-  android:layout_height="wrap_content"
-  android:minHeight="64dp"
-  android:orientation="vertical">
-  <RelativeLayout
-    android:id="@+id/head_item"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:minHeight="64dp">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:minHeight="64dp"
+              android:orientation="vertical">
     <RelativeLayout
-      android:id="@+id/relative_checkbox"
-      android:layout_width="64dp"
-      android:layout_height="64dp"
-      android:gravity="center">
-      <com.google.android.material.checkbox.MaterialCheckBox
-        android:id="@+id/checkbox_item"
-        style="@style/Widget.MaterialComponents.CompoundButton.CheckBox"
-        android:layout_width="wrap_content"
+        android:id="@+id/head_item"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp" />
+        android:gravity="center_vertical"
+        android:minHeight="64dp">
+        <RelativeLayout
+            android:id="@+id/relative_checkbox"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:gravity="center">
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/checkbox_item"
+                style="@style/Widget.MaterialComponents.CompoundButton.CheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp" />
+        </RelativeLayout>
+        <LinearLayout
+            android:id="@+id/linear_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/image_right"
+            android:layout_toEndOf="@+id/relative_checkbox"
+            android:orientation="vertical">
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/item_text"
+                style="@style/NordanPageItemText"
+                android:text="@string/item_text" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/item_subtext"
+                style="@style/NordanPageItemSubText"
+                android:text="@string/item_subtext"
+                android:visibility="gone" />
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/image_right"
+            style="@style/NordanPageItemImage"
+            android:layout_alignParentEnd="true"
+            android:contentDescription="@string/item_image_right_side"
+            tools:srcCompat="@tools:sample/avatars" />
     </RelativeLayout>
-    <LinearLayout
-      android:id="@+id/linear_item"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_centerVertical="true"
-      android:layout_toStartOf="@+id/image_right"
-      android:layout_toEndOf="@+id/relative_checkbox"
-      android:orientation="vertical">
-      <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/item_text"
-        style="@style/NordanPageItemText"
-        android:text="@string/item_text" />
-      <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/item_subtext"
-        style="@style/NordanPageItemSubText"
-        android:text="@string/item_subtext"
-        android:visibility="gone" />
-    </LinearLayout>
-    <ImageView
-      android:id="@+id/image_right"
-      style="@style/NordanPageItemImage"
-      android:layout_alignParentEnd="true"
-      android:contentDescription="@string/item_image_right_side"
-      tools:srcCompat="@tools:sample/avatars" />
-  </RelativeLayout>
 </LinearLayout>

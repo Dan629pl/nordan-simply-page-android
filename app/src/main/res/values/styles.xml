@@ -1,70 +1,70 @@
 <resources>
 
-  <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-    <item name="colorAccent">@color/gray_font_color</item>
-  </style>
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorAccent">@color/gray_font_color</item>
+    </style>
 
-  <style name="NordanPageItemImage">
-    <item name="android:adjustViewBounds">true</item>
-    <item name="android:layout_margin">16dp</item>
-    <item name="android:layout_width">32dp</item>
-    <item name="android:layout_centerVertical">true</item>
-    <item name="android:layout_height">32dp</item>
-  </style>
+    <style name="NordanPageItemImage">
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:layout_margin">16dp</item>
+        <item name="android:layout_width">32dp</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_height">32dp</item>
+    </style>
 
-  <style name="NordanPageGroupImage">
-    <item name="android:layout_marginTop">12dp</item>
-    <item name="android:layout_marginStart">16dp</item>
-    <item name="android:layout_centerVertical">true</item>
-    <item name="android:layout_marginBottom">12dp</item>
-    <item name="android:adjustViewBounds">true</item>
-    <item name="android:layout_width">32dp</item>
-    <item name="android:layout_height">32dp</item>
-  </style>
+    <style name="NordanPageGroupImage">
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginBottom">12dp</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:layout_width">32dp</item>
+        <item name="android:layout_height">32dp</item>
+    </style>
 
-  <style name="NordanPageTextBase">
-    <item name="android:gravity">center</item>
-    <item name="android:elegantTextHeight">true</item>
-    <item name="android:layout_width">wrap_content</item>
-    <item name="android:layout_height">wrap_content</item>
-  </style>
+    <style name="NordanPageTextBase">
+        <item name="android:gravity">center</item>
+        <item name="android:elegantTextHeight">true</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
 
-  <style name="NordanPageGroupText" parent="NordanPageTextBase">
-    <item name="fontFamily">@font/product_sans_bold</item>
-    <item name="android:layout_centerVertical">true</item>
-    <item name="android:layout_marginStart">26dp</item>
-    <item name="android:textSize">18sp</item>
-    <item name="android:textColor">@color/colorAccent</item>
-  </style>
+    <style name="NordanPageGroupText" parent="NordanPageTextBase">
+        <item name="fontFamily">@font/product_sans_bold</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginStart">26dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
 
-  <style name="NordanPageItemText" parent="NordanPageTextBase">
-    <item name="fontFamily">@font/product_sans_regular</item>
-    <item name="android:textSize">16sp</item>
-    <item name="android:gravity">start</item>
-    <item name="android:textColor">@color/gray_font_color</item>
-  </style>
+    <style name="NordanPageItemText" parent="NordanPageTextBase">
+        <item name="fontFamily">@font/product_sans_regular</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:gravity">start</item>
+        <item name="android:textColor">@color/gray_font_color</item>
+    </style>
 
-  <style name="NordanPageItemSubText" parent="NordanPageTextBase">
-    <item name="android:textSize">16sp</item>
-    <item name="android:gravity">start</item>
-    <item name="fontFamily">@font/product_sans_regular</item>
-  </style>
+    <style name="NordanPageItemSubText" parent="NordanPageTextBase">
+        <item name="android:textSize">16sp</item>
+        <item name="android:gravity">start</item>
+        <item name="fontFamily">@font/product_sans_regular</item>
+    </style>
 
-  <style name="ItemSeparator">
-    <item name="android:layout_height">@dimen/nordan_simply_page_separator_height</item>
-    <item name="android:layout_width">match_parent</item>
-    <item name="android:background">@color/grey_400</item>
-    <item name="android:padding">0dp</item>
-    <item name="android:layout_weight">1</item>
-    <item name="android:layout_marginTop">0dp</item>
-    <item name="android:layout_marginBottom">0dp</item>
-  </style>
+    <style name="ItemSeparator">
+        <item name="android:layout_height">@dimen/nordan_simply_page_separator_height</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/grey_400</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:layout_marginBottom">0dp</item>
+    </style>
 
-  <style name="PageWrapperStyle">
-    <item name="android:layout_width">match_parent</item>
-    <item name="android:layout_height">match_parent</item>
-    <item name="android:orientation">vertical</item>
-    <item name="android:gravity">center</item>
-    <item name="android:background">@color/white</item>
-  </style>
+    <style name="PageWrapperStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@color/white</item>
+    </style>
 </resources>

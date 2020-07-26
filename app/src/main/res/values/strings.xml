@@ -1,12 +1,12 @@
 <resources>
-  <string name="app_name">NordanSimplyPage</string>
-  <string name="account">Account name</string>
-  <string name="e_mail">Account email</string>
-  <string name="item_subtext">Subtext</string>
-  <string name="item_text">Item text</string>
-  <string name="item_image_left_side">item image left side</string>
-  <string name="item_image_right_side">item image right side</string>
-  <string name="image_view">image view</string>
-  <string name="copy_right" translatable="false">Copyrights © %1$d</string>
-  <string name="email">E-mail</string>
+    <string name="app_name">NordanSimplyPage</string>
+    <string name="account">Account name</string>
+    <string name="e_mail">Account email</string>
+    <string name="item_subtext">Subtext</string>
+    <string name="item_text">Item text</string>
+    <string name="item_image_left_side">item image left side</string>
+    <string name="item_image_right_side">item image right side</string>
+    <string name="image_view">image view</string>
+    <string name="copy_right" translatable="false">Copyrights © %1$d</string>
+    <string name="email">E-mail</string>
 </resources>

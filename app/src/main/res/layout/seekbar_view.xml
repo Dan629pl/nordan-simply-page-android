@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="match_parent"
-  android:layout_height="wrap_content"
-  android:minHeight="64dp"
-  android:orientation="vertical">
-  <include
-    android:id="@+id/head_item"
-    layout="@layout/standard_item_view" />
-  <SeekBar
-    android:id="@+id/seek_bar"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="64dp"
-    android:layout_marginEnd="64dp"
-    android:minHeight="32dp"
-    android:visibility="gone" />
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:minHeight="64dp"
+              android:orientation="vertical">
+    <include
+        android:id="@+id/head_item"
+        layout="@layout/standard_item_view" />
+    <SeekBar
+        android:id="@+id/seek_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginEnd="64dp"
+        android:minHeight="32dp"
+        android:visibility="gone" />
 </LinearLayout>

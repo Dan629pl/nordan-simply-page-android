@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <dimen name="nordan_simply_page_separator_height">0.5dp</dimen>
+    <dimen name="nordan_simply_page_separator_height">0.5dp</dimen>
 </resources>

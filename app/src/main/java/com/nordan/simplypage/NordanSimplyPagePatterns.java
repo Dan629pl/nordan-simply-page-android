@@ -40,14 +40,13 @@ class NordanSimplyPagePatterns {
     }
 
     PageElement createFacebookElement(String facebookProfileId) {
-        Intent facebookIntent = new Intent();
-        facebookIntent.setAction(Intent.ACTION_VIEW);
-        facebookIntent.addCategory(Intent.CATEGORY_BROWSABLE);
+        Intent facebookIntent = new Intent(Intent.ACTION_VIEW);
         if (isAppInstalled("com.facebook.katana")) {
             facebookIntent.setPackage("com.facebook.katana");
-            Uri uri = Uri.parse("fb://page/" + facebookProfileId);
+            Uri uri = Uri.parse("fb://facewebmodal/f?href=https://www.facebook.com/" + facebookProfileId);
             facebookIntent.setData(uri);
         } else {
+            facebookIntent.addCategory(Intent.CATEGORY_BROWSABLE);
             facebookIntent.setData(Uri.parse("http://m.facebook.com/" + facebookProfileId));
         }
         return PageElement.builder()

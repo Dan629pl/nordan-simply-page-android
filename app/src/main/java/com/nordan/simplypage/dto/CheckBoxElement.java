@@ -2,6 +2,7 @@ package com.nordan.simplypage.dto;
 
 import android.view.View;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
