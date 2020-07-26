@@ -1,6 +1,7 @@
 package com.nordan.simplypage.dto;
 
 import android.net.Uri;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;

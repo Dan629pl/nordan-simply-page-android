@@ -1,6 +1,7 @@
 package com.nordan.simplypage.dto;
 
 import com.nordan.simplypage.OnEditTextChangeValueListener;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;

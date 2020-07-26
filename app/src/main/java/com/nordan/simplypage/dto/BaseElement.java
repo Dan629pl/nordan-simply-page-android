@@ -2,6 +2,7 @@ package com.nordan.simplypage.dto;
 
 import android.content.Intent;
 import android.view.View;
+
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.experimental.SuperBuilder;

@@ -1,40 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:tools="http://schemas.android.com/tools"
-  android:layout_width="match_parent"
-  android:layout_height="wrap_content"
-  android:clickable="true"
-  android:focusable="true"
-  android:gravity="center_vertical"
-  android:minHeight="64dp">
-
-  <ImageView
-    android:id="@+id/image_left"
-    style="@style/NordanPageItemImage"
-    android:contentDescription="@string/item_image_left_side"
-    tools:srcCompat="@tools:sample/avatars" />
-  <LinearLayout
-    android:id="@+id/linear_item"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_centerVertical="true"
-    android:layout_toStartOf="@+id/image_right"
-    android:layout_toEndOf="@+id/image_left"
-    android:orientation="vertical">
-    <com.google.android.material.textview.MaterialTextView
-      android:id="@+id/item_text"
-      style="@style/NordanPageItemText"
-      android:text="@string/item_text" />
-    <com.google.android.material.textview.MaterialTextView
-      android:id="@+id/item_subtext"
-      style="@style/NordanPageItemSubText"
-      android:text="@string/item_subtext"
-      android:visibility="gone" />
-  </LinearLayout>
-  <ImageView
-    android:id="@+id/image_right"
-    style="@style/NordanPageItemImage"
-    android:layout_alignParentEnd="true"
-    android:contentDescription="@string/item_image_right_side"
-    tools:srcCompat="@tools:sample/avatars" />
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:minHeight="64dp">
+    <ImageView
+        android:id="@+id/image_left"
+        style="@style/NordanPageItemImage"
+        android:contentDescription="@string/item_image_left_side"
+        tools:srcCompat="@tools:sample/avatars" />
+    <LinearLayout
+        android:id="@+id/linear_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/image_right"
+        android:layout_toEndOf="@+id/image_left"
+        android:orientation="vertical">
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/item_text"
+            style="@style/NordanPageItemText"
+            android:text="@string/item_text" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/item_subtext"
+            style="@style/NordanPageItemSubText"
+            android:text="@string/item_subtext"
+            android:visibility="gone" />
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/image_right"
+        style="@style/NordanPageItemImage"
+        android:layout_alignParentEnd="true"
+        android:contentDescription="@string/item_image_right_side"
+        tools:srcCompat="@tools:sample/avatars" />
 </RelativeLayout>
