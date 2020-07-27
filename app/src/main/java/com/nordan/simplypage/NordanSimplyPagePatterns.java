@@ -84,6 +84,20 @@ class NordanSimplyPagePatterns {
                 .build();
     }
 
+    PageElement createGooglePlayApplicationPageElement(String applicationId, String tittle) {
+        return createGooglePlayApplicationPageElement(applicationId, tittle, R.drawable.google_play_icon);
+    }
+
+    PageElement createGooglePlayApplicationPageElement(String applicationId, String tittle, int iconRes) {
+        Uri uri = Uri.parse("https://play.google.com/store/apps/details?id=" + applicationId);
+        Intent googlePlayStoreIntent = new Intent(Intent.ACTION_VIEW, uri);
+        return PageElement.builder()
+                .leftSideIconDrawable(iconRes)
+                .title(tittle)
+                .intent(googlePlayStoreIntent)
+                .build();
+    }
+
     PageElement createYoutubeElement(String youtubeChannelId) {
         Intent youTubeIntent = new Intent(Intent.ACTION_VIEW);
         youTubeIntent.setData(Uri.parse(String.format("http://youtube.com/channel/%s", youtubeChannelId)));
