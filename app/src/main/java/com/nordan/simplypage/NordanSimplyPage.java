@@ -118,7 +118,7 @@ public class NordanSimplyPage {
                 textInputLayout.setHelperTextEnabled(true);
                 textInputLayout.setHelperText(helperText);
             });
-            headerSubTextItem.setText(MessageFormat.format(element.getSubText(), (Object[]) element.getTextParams()));
+            headerSubTextItem.setText(MessageFormat.format(element.getSubText(), element.getTextParams()));
             OnEditTextChangeValueListener onEditTextChangeValueListener = element.getOnEditTextChangeValueListener();
             headerView.setOnClickListener(v -> {
                 String editableText = Optional.of(editText)
@@ -142,7 +142,7 @@ public class NordanSimplyPage {
                     isResize[0] = false;
                     TransitionManager.beginDelayedTransition(pageView.findViewById(R.id.page_provider));
                     textInputLayout.setVisibility(View.GONE);
-                    headerSubTextItem.setText(MessageFormat.format(editableText, (Object[]) element.getTextParams()));
+                    headerSubTextItem.setText(MessageFormat.format(editableText, element.getTextParams()));
                     headerSubTextItem.setVisibility(View.VISIBLE);
                     if (!editableText.equals(element.getSubText())) {
                         onEditTextChangeValueListener.onNewValueSet(editableText);
@@ -603,6 +603,18 @@ public class NordanSimplyPage {
 
     public NordanSimplyPage addGooglePlayDeveloperPage(String developerId) {
         addItem(nordanSimplyPagePatterns.createGooglePlayDeveloperPageElement(developerId));
+        addSeparator();
+        return this;
+    }
+
+    public NordanSimplyPage addGooglePlayApplicationPage(String applicationid, String tittle) {
+        addItem(nordanSimplyPagePatterns.createGooglePlayApplicationPageElement(applicationid, tittle));
+        addSeparator();
+        return this;
+    }
+
+    public NordanSimplyPage addGooglePlayApplicationPage(String applicationid, String tittle, int iconResource) {
+        addItem(nordanSimplyPagePatterns.createGooglePlayApplicationPageElement(applicationid, tittle, iconResource));
         addSeparator();
         return this;
     }
