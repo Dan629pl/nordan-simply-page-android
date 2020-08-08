@@ -596,13 +596,25 @@ public class NordanSimplyPage {
     }
 
     public NordanSimplyPage addFacebook(String id) {
-        addItem(nordanSimplyPagePatterns.createFacebookElement(id));
+        addItem(nordanSimplyPagePatterns.createFacebookElement(id, "Facebook"));
+        addSeparator();
+        return this;
+    }
+
+    public NordanSimplyPage addFacebook(String id, String tittle) {
+        addItem(nordanSimplyPagePatterns.createFacebookElement(id, tittle));
         addSeparator();
         return this;
     }
 
     public NordanSimplyPage addGooglePlayDeveloperPage(String developerId) {
-        addItem(nordanSimplyPagePatterns.createGooglePlayDeveloperPageElement(developerId));
+        addItem(nordanSimplyPagePatterns.createGooglePlayDeveloperPageElement(developerId, "Google Play"));
+        addSeparator();
+        return this;
+    }
+
+    public NordanSimplyPage addGooglePlayDeveloperPage(String developerId, String tittle) {
+        addItem(nordanSimplyPagePatterns.createGooglePlayDeveloperPageElement(developerId, tittle));
         addSeparator();
         return this;
     }
@@ -620,13 +632,25 @@ public class NordanSimplyPage {
     }
 
     public NordanSimplyPage addGithub(String id) {
-        addItem(nordanSimplyPagePatterns.createGithubElement(id));
+        addItem(nordanSimplyPagePatterns.createGithubElement(id, "GitHub"));
+        addSeparator();
+        return this;
+    }
+
+    public NordanSimplyPage addGithub(String id, String tittle) {
+        addItem(nordanSimplyPagePatterns.createGithubElement(id, tittle));
         addSeparator();
         return this;
     }
 
     public NordanSimplyPage addInstagram(String id) {
-        addItem(nordanSimplyPagePatterns.createInstagramElement(id));
+        addItem(nordanSimplyPagePatterns.createInstagramElement(id, "Instagram"));
+        addSeparator();
+        return this;
+    }
+
+    public NordanSimplyPage addInstagram(String id, String tittle) {
+        addItem(nordanSimplyPagePatterns.createInstagramElement(id, tittle));
         addSeparator();
         return this;
     }
@@ -660,25 +684,49 @@ public class NordanSimplyPage {
     }
 
     public NordanSimplyPage addLinkedIn(String id) {
-        addItem(nordanSimplyPagePatterns.createLinkedInElement(id));
+        addItem(nordanSimplyPagePatterns.createLinkedInElement(id, "Linkedin"));
+        addSeparator();
+        return this;
+    }
+
+    public NordanSimplyPage addLinkedIn(String id, String tittle) {
+        addItem(nordanSimplyPagePatterns.createLinkedInElement(id, tittle));
         addSeparator();
         return this;
     }
 
     public NordanSimplyPage addSkype(String id) {
-        addItem(nordanSimplyPagePatterns.createSkypeElement(id));
+        addItem(nordanSimplyPagePatterns.createSkypeElement(id, "Skype"));
+        addSeparator();
+        return this;
+    }
+
+    public NordanSimplyPage addSkype(String id, String tittle) {
+        addItem(nordanSimplyPagePatterns.createSkypeElement(id, tittle));
         addSeparator();
         return this;
     }
 
     public NordanSimplyPage addYoutube(String id) {
-        addItem(nordanSimplyPagePatterns.createYoutubeElement(id));
+        addItem(nordanSimplyPagePatterns.createYoutubeElement(id, "YouTube"));
+        addSeparator();
+        return this;
+    }
+
+    public NordanSimplyPage addYoutube(String id, String tittle) {
+        addItem(nordanSimplyPagePatterns.createYoutubeElement(id, tittle));
         addSeparator();
         return this;
     }
 
     public NordanSimplyPage addTwitter(String id) {
-        addItem(nordanSimplyPagePatterns.createTwitterElement(id));
+        addItem(nordanSimplyPagePatterns.createTwitterElement(id, "Twitter"));
+        addSeparator();
+        return this;
+    }
+
+    public NordanSimplyPage addTwitter(String id, String tittle) {
+        addItem(nordanSimplyPagePatterns.createTwitterElement(id, tittle));
         addSeparator();
         return this;
     }
