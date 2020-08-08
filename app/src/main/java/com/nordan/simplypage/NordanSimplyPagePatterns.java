@@ -39,7 +39,7 @@ class NordanSimplyPagePatterns {
                 .build();
     }
 
-    PageElement createFacebookElement(String facebookProfileId) {
+    PageElement createFacebookElement(String facebookProfileId, String tittle) {
         Intent facebookIntent = new Intent(Intent.ACTION_VIEW);
         if (isAppInstalled("com.facebook.katana")) {
             facebookIntent.setPackage("com.facebook.katana");
@@ -51,12 +51,12 @@ class NordanSimplyPagePatterns {
         }
         return PageElement.builder()
                 .leftSideIconDrawable(R.drawable.facebook_icon)
-                .title("Facebook")
+                .title(tittle)
                 .intent(facebookIntent)
                 .build();
     }
 
-    PageElement createTwitterElement(String twitterProfileId) {
+    PageElement createTwitterElement(String twitterProfileId, String tittle) {
         Intent twitterIntent = new Intent();
         twitterIntent.setAction(Intent.ACTION_VIEW);
         twitterIntent.addCategory(Intent.CATEGORY_BROWSABLE);
@@ -69,17 +69,17 @@ class NordanSimplyPagePatterns {
         }
         return PageElement.builder()
                 .leftSideIconDrawable(R.drawable.twitter_icon)
-                .title("Twitter")
+                .title(tittle)
                 .intent(twitterIntent)
                 .build();
     }
 
-    PageElement createGooglePlayDeveloperPageElement(String developerId) {
+    PageElement createGooglePlayDeveloperPageElement(String developerId, String tittle) {
         Uri uri = Uri.parse("https://play.google.com/store/apps/dev?id=" + developerId);
         Intent googlePlayStoreIntent = new Intent(Intent.ACTION_VIEW, uri);
         return PageElement.builder()
                 .leftSideIconDrawable(R.drawable.google_play_icon)
-                .title("Google Play")
+                .title(tittle)
                 .intent(googlePlayStoreIntent)
                 .build();
     }
@@ -98,7 +98,7 @@ class NordanSimplyPagePatterns {
                 .build();
     }
 
-    PageElement createYoutubeElement(String youtubeChannelId) {
+    PageElement createYoutubeElement(String youtubeChannelId, String tittle) {
         Intent youTubeIntent = new Intent(Intent.ACTION_VIEW);
         youTubeIntent.setData(Uri.parse(String.format("http://youtube.com/channel/%s", youtubeChannelId)));
         if (isAppInstalled("com.google.android.youtube")) {
@@ -106,12 +106,12 @@ class NordanSimplyPagePatterns {
         }
         return PageElement.builder()
                 .leftSideIconDrawable(R.drawable.youtube_icon)
-                .title("YouTube")
+                .title(tittle)
                 .intent(youTubeIntent)
                 .build();
     }
 
-    PageElement createInstagramElement(String instagramProfileId) {
+    PageElement createInstagramElement(String instagramProfileId, String tittle) {
         Intent instagramIntent = new Intent();
         instagramIntent.setAction(Intent.ACTION_VIEW);
         instagramIntent.setData(Uri.parse("http://instagram.com/_u/" + instagramProfileId));
@@ -121,12 +121,12 @@ class NordanSimplyPagePatterns {
         }
         return PageElement.builder()
                 .leftSideIconDrawable(R.drawable.instagram_icon)
-                .title("Instagram")
+                .title(tittle)
                 .intent(instagramIntent)
                 .build();
     }
 
-    PageElement createGithubElement(String githubProfileId) {
+    PageElement createGithubElement(String githubProfileId, String tittle) {
         Intent githubIntent = new Intent();
         githubIntent.setAction(Intent.ACTION_VIEW);
         githubIntent.setData(Uri.parse(String.format("https://github.com/%s", githubProfileId)));
@@ -135,12 +135,12 @@ class NordanSimplyPagePatterns {
         }
         return PageElement.builder()
                 .leftSideIconDrawable(R.drawable.github_icon)
-                .title("Github")
+                .title(tittle)
                 .intent(githubIntent)
                 .build();
     }
 
-    PageElement createLinkedInElement(String linkedInProfileId) {
+    PageElement createLinkedInElement(String linkedInProfileId, String tittle) {
         Intent linkedInIntent = new Intent();
         linkedInIntent.setAction(Intent.ACTION_VIEW);
         linkedInIntent.setData(Uri.parse(String.format("https://www.linkedin.com/in/%s", linkedInProfileId)));
@@ -149,7 +149,7 @@ class NordanSimplyPagePatterns {
         }
         return PageElement.builder()
                 .leftSideIconDrawable(R.drawable.linkedin_icon)
-                .title("Linkedin")
+                .title(tittle)
                 .intent(linkedInIntent)
                 .build();
     }
@@ -167,7 +167,7 @@ class NordanSimplyPagePatterns {
                 .build();
     }
 
-    PageElement createSkypeElement(String skypeProfileId) {
+    PageElement createSkypeElement(String skypeProfileId, String tittle) {
         Intent skypeIntent = new Intent(Intent.ACTION_VIEW);
         if (isAppInstalled("com.skype.raider")) {
             skypeIntent.setData(Uri.parse("skype:" + skypeProfileId + "?chat"));
@@ -177,7 +177,7 @@ class NordanSimplyPagePatterns {
         }
         return PageElement.builder()
                 .leftSideIconDrawable(R.drawable.skype_icon)
-                .title("Skype")
+                .title(tittle)
                 .intent(skypeIntent)
                 .build();
     }

@@ -11,7 +11,7 @@ Add this to your module's `build.gradle` file:
 ```gradle
 dependencies {
 	...
-    implementation 'com.github.Dan629pl:nordan-simply-page-android:1.1.7'
+    implementation 'com.github.Dan629pl:nordan-simply-page-android:1.1.8'
 }
 ```
 <h1>Nordan Simply Pages</h1>
