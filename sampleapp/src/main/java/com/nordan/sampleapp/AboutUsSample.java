@@ -19,7 +19,6 @@ public class AboutUsSample extends FragmentActivity {
                 .addImageItem(R.drawable.nordan_logo)
                 .addDescriptionItem(R.string.lorem_ipsum)
                 .addSeparator()
-                .addGroup("Contact", R.color.gray_font_color)
                 .addPhone("123456789", "Call to me")
                 .addEmail("nordan.studio@gmail.com", "Write me an email")
                 .addSms("123456789", "Send message to me", "Sms message")

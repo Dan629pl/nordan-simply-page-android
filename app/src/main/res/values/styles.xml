@@ -30,9 +30,10 @@
     </style>
 
     <style name="NordanPageGroupText" parent="NordanPageTextBase">
-        <item name="fontFamily">@font/product_sans_bold</item>
+        <item name="fontFamily">@font/product_sans_regular</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:layout_marginStart">26dp</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/colorAccent</item>
     </style>
