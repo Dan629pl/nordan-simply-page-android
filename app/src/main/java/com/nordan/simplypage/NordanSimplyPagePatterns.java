@@ -154,14 +154,14 @@ class NordanSimplyPagePatterns {
                 .build();
     }
 
-    PageElement createWebsiteElement(String url, String tittle) {
+    PageElement createWebsiteElement(String url, String tittle, int resImg) {
         if (!url.startsWith("http://") && !url.startsWith("https://")) {
             url = "http://" + url;
         }
         Uri uri = Uri.parse(url);
         Intent websiteIntent = new Intent(Intent.ACTION_VIEW, uri);
         return PageElement.builder()
-                .leftSideIconDrawable(R.drawable.world_icon)
+                .leftSideIconDrawable(resImg)
                 .title(tittle)
                 .intent(websiteIntent)
                 .build();
