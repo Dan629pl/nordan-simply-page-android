@@ -18,7 +18,7 @@ public class AboutUsSample extends FragmentActivity {
         View simplyPage = new NordanSimplyPage(this)
                 .addImageItem(R.drawable.nordan_logo)
                 .addDescriptionItem(R.string.lorem_ipsum)
-                ._addSeparator()
+                .addSeparator()
                 .addPhone("123456789", "Call to me")
                 .addEmail("nordan.studio@gmail.com", "Write me an email")
                 .addSms("123456789", "Send message to me", "Sms message")
