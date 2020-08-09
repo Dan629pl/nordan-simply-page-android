@@ -685,7 +685,13 @@ public class NordanSimplyPage {
     }
 
     public NordanSimplyPage addWebsite(String url, String title) {
-        addItem(nordanSimplyPagePatterns.createWebsiteElement(url, title));
+        addItem(nordanSimplyPagePatterns.createWebsiteElement(url, title, R.drawable.world_icon));
+        _addSeparator();
+        return this;
+    }
+
+    public NordanSimplyPage addWebsite(String url, String title, int resWebIcon) {
+        addItem(nordanSimplyPagePatterns.createWebsiteElement(url, title, resWebIcon));
         _addSeparator();
         return this;
     }
