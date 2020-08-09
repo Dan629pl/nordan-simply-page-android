@@ -153,7 +153,7 @@ public class NordanSimplyPage {
             activity.getTheme().resolveAttribute(R.attr.selectableItemBackground, outValue, true);
             headerView.setBackgroundResource(outValue.resourceId);
             ((LinearLayout) pageView.findViewById(R.id.page_provider)).addView(view);
-            addSeparator();
+            _addSeparator();
         });
         return this;
     }
@@ -232,7 +232,7 @@ public class NordanSimplyPage {
             activity.getTheme().resolveAttribute(R.attr.selectableItemBackground, outValue, true);
             headerView.setBackgroundResource(outValue.resourceId);
             ((LinearLayout) pageView.findViewById(R.id.page_provider)).addView(view);
-            addSeparator();
+            _addSeparator();
         });
         return this;
     }
@@ -286,7 +286,7 @@ public class NordanSimplyPage {
                 }
             });
             ((LinearLayout) pageView.findViewById(R.id.page_provider)).addView(view);
-            addSeparator();
+            _addSeparator();
         });
         return this;
     }
@@ -354,7 +354,7 @@ public class NordanSimplyPage {
             activity.getTheme().resolveAttribute(R.attr.selectableItemBackground, outValue, true);
             headerView.setBackgroundResource(outValue.resourceId);
             ((LinearLayout) pageView.findViewById(R.id.page_provider)).addView(view);
-            addSeparator();
+            _addSeparator();
         });
         return this;
     }
@@ -455,7 +455,7 @@ public class NordanSimplyPage {
                 }
             });
             ((LinearLayout) pageView.findViewById(R.id.page_provider)).addView(view);
-            addSeparator();
+            _addSeparator();
         });
         return this;
     }
@@ -501,7 +501,7 @@ public class NordanSimplyPage {
             }
             LinearLayout wrapper = pageView.findViewById(R.id.page_provider);
             wrapper.addView(view);
-            addSeparator();
+            _addSeparator();
         });
         return this;
     }
@@ -519,7 +519,7 @@ public class NordanSimplyPage {
             textAccountName.setText(element.getAccountName());
             textAccountEmail.setText(element.getAccountEmail());
             ((LinearLayout) pageView.findViewById(R.id.page_provider)).addView(view);
-            addSeparator();
+            _addSeparator();
         });
         return this;
     }
@@ -585,6 +585,13 @@ public class NordanSimplyPage {
     }
 
     public NordanSimplyPage addSeparator() {
+        int dimensionPixelSize = activity.getResources().getDimensionPixelSize(R.dimen.nordan_simply_page_separator_height);
+        ((LinearLayout) pageView.findViewById(R.id.page_provider))
+                .addView(getSeparator(), new LayoutParams(MATCH_PARENT, dimensionPixelSize));
+        return this;
+    }
+
+    private NordanSimplyPage _addSeparator() {
         if (isHideSeparators) {
             addEmptyItem(5);
             return this;
@@ -597,67 +604,67 @@ public class NordanSimplyPage {
 
     public NordanSimplyPage addFacebook(String id) {
         addItem(nordanSimplyPagePatterns.createFacebookElement(id, "Facebook"));
-        addSeparator();
+        _addSeparator();
         return this;
     }
 
     public NordanSimplyPage addFacebook(String id, String tittle) {
         addItem(nordanSimplyPagePatterns.createFacebookElement(id, tittle));
-        addSeparator();
+        _addSeparator();
         return this;
     }
 
     public NordanSimplyPage addGooglePlayDeveloperPage(String developerId) {
         addItem(nordanSimplyPagePatterns.createGooglePlayDeveloperPageElement(developerId, "Google Play"));
-        addSeparator();
+        _addSeparator();
         return this;
     }
 
     public NordanSimplyPage addGooglePlayDeveloperPage(String developerId, String tittle) {
         addItem(nordanSimplyPagePatterns.createGooglePlayDeveloperPageElement(developerId, tittle));
-        addSeparator();
+        _addSeparator();
         return this;
     }
 
     public NordanSimplyPage addGooglePlayApplicationPage(String applicationid, String tittle) {
         addItem(nordanSimplyPagePatterns.createGooglePlayApplicationPageElement(applicationid, tittle));
-        addSeparator();
+        _addSeparator();
         return this;
     }
 
     public NordanSimplyPage addGooglePlayApplicationPage(String applicationid, String tittle, int iconResource) {
         addItem(nordanSimplyPagePatterns.createGooglePlayApplicationPageElement(applicationid, tittle, iconResource));
-        addSeparator();
+        _addSeparator();
         return this;
     }
 
     public NordanSimplyPage addGithub(String id) {
         addItem(nordanSimplyPagePatterns.createGithubElement(id, "GitHub"));
-        addSeparator();
+        _addSeparator();
         return this;
     }
 
     public NordanSimplyPage addGithub(String id, String tittle) {
         addItem(nordanSimplyPagePatterns.createGithubElement(id, tittle));
-        addSeparator();
+        _addSeparator();
         return this;
     }
 
     public NordanSimplyPage addInstagram(String id) {
         addItem(nordanSimplyPagePatterns.createInstagramElement(id, "Instagram"));
-        addSeparator();
+        _addSeparator();
         return this;
     }
 
     public NordanSimplyPage addInstagram(String id, String tittle) {
         addItem(nordanSimplyPagePatterns.createInstagramElement(id, tittle));
-        addSeparator();
+        _addSeparator();
         return this;
     }
 
     public NordanSimplyPage addEmail(String email, String title) {
         addItem(nordanSimplyPagePatterns.createEmailElement(email, title));
-        addSeparator();
+        _addSeparator();
         return this;
     }
 
@@ -667,67 +674,67 @@ public class NordanSimplyPage {
 
     public NordanSimplyPage addPhone(String phoneNumber, String title) {
         addItem(nordanSimplyPagePatterns.createPhoneItem(phoneNumber, title));
-        addSeparator();
+        _addSeparator();
         return this;
     }
 
     public NordanSimplyPage addSms(String phoneNumber, String title, String messageText) {
         addItem(nordanSimplyPagePatterns.createMessageItem(phoneNumber, title, messageText));
-        addSeparator();
+        _addSeparator();
         return this;
     }
 
     public NordanSimplyPage addWebsite(String url, String title) {
         addItem(nordanSimplyPagePatterns.createWebsiteElement(url, title));
-        addSeparator();
+        _addSeparator();
         return this;
     }
 
     public NordanSimplyPage addLinkedIn(String id) {
         addItem(nordanSimplyPagePatterns.createLinkedInElement(id, "Linkedin"));
-        addSeparator();
+        _addSeparator();
         return this;
     }
 
     public NordanSimplyPage addLinkedIn(String id, String tittle) {
         addItem(nordanSimplyPagePatterns.createLinkedInElement(id, tittle));
-        addSeparator();
+        _addSeparator();
         return this;
     }
 
     public NordanSimplyPage addSkype(String id) {
         addItem(nordanSimplyPagePatterns.createSkypeElement(id, "Skype"));
-        addSeparator();
+        _addSeparator();
         return this;
     }
 
     public NordanSimplyPage addSkype(String id, String tittle) {
         addItem(nordanSimplyPagePatterns.createSkypeElement(id, tittle));
-        addSeparator();
+        _addSeparator();
         return this;
     }
 
     public NordanSimplyPage addYoutube(String id) {
         addItem(nordanSimplyPagePatterns.createYoutubeElement(id, "YouTube"));
-        addSeparator();
+        _addSeparator();
         return this;
     }
 
     public NordanSimplyPage addYoutube(String id, String tittle) {
         addItem(nordanSimplyPagePatterns.createYoutubeElement(id, tittle));
-        addSeparator();
+        _addSeparator();
         return this;
     }
 
     public NordanSimplyPage addTwitter(String id) {
         addItem(nordanSimplyPagePatterns.createTwitterElement(id, "Twitter"));
-        addSeparator();
+        _addSeparator();
         return this;
     }
 
     public NordanSimplyPage addTwitter(String id, String tittle) {
         addItem(nordanSimplyPagePatterns.createTwitterElement(id, tittle));
-        addSeparator();
+        _addSeparator();
         return this;
     }
 
