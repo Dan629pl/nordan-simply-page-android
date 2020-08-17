@@ -25,7 +25,7 @@ public class SettingsSample extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View settingPage = new NordanSimplyPage(this)
+        setContentView(new NordanSimplyPage(this)
                 .hideSeparators(true)
                 .addImageItem(R.drawable.nordan_logo, 300, 100)
                 .addGroup(getString(R.string.account_group), R.drawable.account_icon, R.color.gray_font_color)
@@ -43,8 +43,7 @@ public class SettingsSample extends AppCompatActivity {
                 .addEditableTextItem(createEditTextElement())
                 .addSwitchItem(createExtendedSwitcherElement())
                 .addEmptyItem(100)
-                .create();
-        setContentView(settingPage);
+                .create());
     }
 
     private EditableTextElement createEditTextElement() {

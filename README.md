@@ -11,7 +11,7 @@ Add this to your module's `build.gradle` file:
 ```gradle
 dependencies {
 	...
-    implementation 'com.github.Dan629pl:nordan-simply-page-android:1.2.1'
+    implementation 'com.github.Dan629pl:nordan-simply-page-android:1.2.2'
 }
 ```
 <h1>Nordan Simply Pages</h1>
@@ -20,7 +20,7 @@ dependencies {
 
 ```java
         ...
-    View simplyPage = new NordanSimplyPage(this)
+    ConstraintLayout simplyPage = new NordanSimplyPage(this)
                   .addImageItem(R.drawable.nordan_logo)
                   .addDescriptionItem(R.string.lorem_ipsum)
                   .addSeparator()

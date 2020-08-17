@@ -15,10 +15,10 @@ public class AboutUsSample extends FragmentActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View simplyPage = new NordanSimplyPage(this)
+        setContentView(new NordanSimplyPage(this)
                 .addImageItem(R.drawable.nordan_logo)
                 .addDescriptionItem(R.string.lorem_ipsum)
-                ._addSeparator()
+                .addSeparator()
                 .addPhone("123456789", "Call to me")
                 .addEmail("nordan.studio@gmail.com", "Write me an email")
                 .addSms("123456789", "Send message to me", "Sms message")
@@ -41,8 +41,6 @@ public class AboutUsSample extends FragmentActivity {
                                 .title("Version " + BuildConfig.VERSION_NAME)
                                 .gravity(Gravity.CENTER)
                                 .build())
-                .addCopyRightsItem()
-                .create();
-        setContentView(simplyPage);
+                .create());
     }
 }
