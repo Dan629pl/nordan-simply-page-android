@@ -6,7 +6,6 @@ import android.os.Build.VERSION_CODES;
 import android.transition.ChangeBounds;
 import android.transition.TransitionManager;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +20,7 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import androidx.appcompat.widget.AppCompatEditText;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.checkbox.MaterialCheckBox;
@@ -38,7 +38,6 @@ import com.nordan.simplypage.dto.SingleChoiceElement;
 import com.nordan.simplypage.dto.SwitchElement;
 
 import java.text.MessageFormat;
-import java.util.Calendar;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -51,15 +50,17 @@ public class NordanSimplyPage {
 
     private final Activity activity;
     private final LayoutInflater layoutInflater;
-    private final View pageView;
+    private final ConstraintLayout pageView;
     private final NordanSimplyPagePatterns nordanSimplyPagePatterns;
     private boolean isHideSeparators = false;
 
     public NordanSimplyPage(Activity activity) {
         this.activity = activity;
         this.layoutInflater = LayoutInflater.from(activity);
-        this.pageView = layoutInflater.inflate(R.layout.nordan_page_activity, null);
+        this.pageView = (ConstraintLayout) layoutInflater.inflate(R.layout.nordan_page_activity, null);
         nordanSimplyPagePatterns = new NordanSimplyPagePatterns(activity);
+        pageView.setSaveEnabled(true);
+        pageView.setSaveFromParentEnabled(true);
     }
 
     public NordanSimplyPage hideSeparators(boolean hide) {
@@ -78,15 +79,6 @@ public class NordanSimplyPage {
         view.setLayoutParams(layoutParams);
         ((LinearLayout) pageView.findViewById(R.id.page_provider)).addView(view);
         return this;
-    }
-
-    public NordanSimplyPage addCopyRightsItem() {
-        String copyrights = String.format(activity.getString(R.string.copy_right), Calendar.getInstance().get(Calendar.YEAR));
-        BaseElement copyRightsElement = BaseElement.builder()
-                .title(copyrights)
-                .gravity(Gravity.CENTER_HORIZONTAL)
-                .build();
-        return addSingleBottomItem(copyRightsElement);
     }
 
     public NordanSimplyPage addEditableTextItem(EditableTextElement parElement) {
@@ -355,28 +347,6 @@ public class NordanSimplyPage {
             headerView.setBackgroundResource(outValue.resourceId);
             ((LinearLayout) pageView.findViewById(R.id.page_provider)).addView(view);
             _addSeparator();
-        });
-        return this;
-    }
-
-    public NordanSimplyPage addSingleBottomItem(BaseElement parElement) {
-        Optional.ofNullable(parElement).ifPresent(element -> {
-            LinearLayout bottomLinear = pageView.findViewById(R.id.single_bottom_element);
-            bottomLinear.setVisibility(View.VISIBLE);
-            RelativeLayout view = (RelativeLayout) layoutInflater.inflate(R.layout.minimal_item_view, null);
-            MaterialTextView textItem = view.findViewById(R.id.item_text);
-            textItem.setText(parElement.getTitle());
-            if (parElement.getGravity() != 0) {
-                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
-                params.setMargins(0, 0, 0, 0);
-                view.setGravity(parElement.getGravity());
-                view.setMinimumHeight(WRAP_CONTENT);
-                textItem.setLayoutParams(params);
-            }
-            if (bottomLinear.getChildCount() > 0) {
-                bottomLinear.removeAllViews();
-            }
-            bottomLinear.addView(view);
         });
         return this;
     }
