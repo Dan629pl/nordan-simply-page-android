@@ -359,6 +359,7 @@ public class NordanSimplyPage {
         RelativeLayout view = (RelativeLayout) layoutInflater.inflate(R.layout.custom_item_view, null);
         LinearLayout customLinear = view.findViewById(R.id.custom_linear);
         if (gravity != 0) {
+            customLinear.setLayoutParams(new LayoutParams(MATCH_PARENT, WRAP_CONTENT));
             view.setGravity(gravity);
         }
         customLinear.addView(customView);
