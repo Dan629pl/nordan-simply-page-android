@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.nordan.simplypage.NordanSimplyPage;
 import com.nordan.simplypage.dto.BaseElement;
+import com.nordan.simplypage.dto.ExtendableElement;
 
 public class AboutUsSample extends FragmentActivity {
 
@@ -33,6 +34,7 @@ public class AboutUsSample extends FragmentActivity {
                 .addSkype("profileId")
                 .addLinkedIn("daniel-owczarczyk-8b89a6150")
                 .addTwitter("profileId")
+                .addExtendableItem(createExtendableView())
                 .addGroup(R.mipmap.ic_launcher_round, "Other groups (with left side image)")
                 .addMinimalItem(BaseElement.builder().title("Minimal item (only text view)").build())
                 .addEmptyItem()
@@ -41,8 +43,19 @@ public class AboutUsSample extends FragmentActivity {
                                 .title("Version " + BuildConfig.VERSION_NAME)
                                 .gravity(Gravity.CENTER)
                                 .build())
-                .addCopyRightsItem()
                 .create();
         setContentView(simplyPage);
+    }
+
+    private ExtendableElement createExtendableView() {
+        return ExtendableElement.builder()
+                .title("Extendable view")
+                .subText("Click here to extend view!")
+                .extendView(new NordanSimplyPage(this)
+                        .addSkype("profileId")
+                        .addLinkedIn("daniel-owczarczyk-8b89a6150")
+                        .addTwitter("profileId")
+                        .create())
+                .build();
     }
 }
