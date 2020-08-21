@@ -20,7 +20,7 @@ dependencies {
 
 ```java
         ...
-    View simplyPage = new NordanSimplyPage(this)
+    ConstraintLayout simplyPage = new NordanSimplyPage(this)
                   .addImageItem(R.drawable.nordan_logo)
                   .addDescriptionItem(R.string.lorem_ipsum)
                   .addSeparator()

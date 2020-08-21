@@ -16,7 +16,7 @@ public class AboutUsSample extends FragmentActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View simplyPage = new NordanSimplyPage(this)
+        setContentView(new NordanSimplyPage(this)
                 .addImageItem(R.drawable.nordan_logo)
                 .addDescriptionItem(R.string.lorem_ipsum)
                 .addSeparator()
@@ -43,8 +43,7 @@ public class AboutUsSample extends FragmentActivity {
                                 .title("Version " + BuildConfig.VERSION_NAME)
                                 .gravity(Gravity.CENTER)
                                 .build())
-                .create();
-        setContentView(simplyPage);
+                .create());
     }
 
     private ExtendableElement createExtendableView() {

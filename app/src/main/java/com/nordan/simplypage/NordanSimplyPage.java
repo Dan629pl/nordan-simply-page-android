@@ -20,6 +20,7 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import androidx.appcompat.widget.AppCompatEditText;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.checkbox.MaterialCheckBox;
@@ -50,15 +51,17 @@ public class NordanSimplyPage {
 
     private final Activity activity;
     private final LayoutInflater layoutInflater;
-    private final RelativeLayout pageView;
+    private final ConstraintLayout pageView;
     private final NordanSimplyPagePatterns nordanSimplyPagePatterns;
     private boolean isHideSeparators = false;
 
     public NordanSimplyPage(Activity activity) {
         this.activity = activity;
         this.layoutInflater = LayoutInflater.from(activity);
-        this.pageView = (RelativeLayout) layoutInflater.inflate(R.layout.nordan_page_activity, null);
+        this.pageView = (ConstraintLayout) layoutInflater.inflate(R.layout.nordan_page_activity, null);
         nordanSimplyPagePatterns = new NordanSimplyPagePatterns(activity);
+        pageView.setSaveEnabled(true);
+        pageView.setSaveFromParentEnabled(true);
     }
 
     public NordanSimplyPage hideSeparators(boolean hide) {
@@ -357,6 +360,7 @@ public class NordanSimplyPage {
         RelativeLayout view = (RelativeLayout) layoutInflater.inflate(R.layout.custom_item_view, null);
         LinearLayout customLinear = view.findViewById(R.id.custom_linear);
         if (gravity != 0) {
+            customLinear.setLayoutParams(new RelativeLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
             view.setGravity(gravity);
         }
         customLinear.addView(customView);
