@@ -32,6 +32,7 @@ import com.nordan.simplypage.dto.AccountElement;
 import com.nordan.simplypage.dto.BaseElement;
 import com.nordan.simplypage.dto.CheckBoxElement;
 import com.nordan.simplypage.dto.EditableTextElement;
+import com.nordan.simplypage.dto.ExtendableElement;
 import com.nordan.simplypage.dto.PageElement;
 import com.nordan.simplypage.dto.SeekBarElement;
 import com.nordan.simplypage.dto.SingleChoiceElement;
@@ -359,7 +360,7 @@ public class NordanSimplyPage {
         RelativeLayout view = (RelativeLayout) layoutInflater.inflate(R.layout.custom_item_view, null);
         LinearLayout customLinear = view.findViewById(R.id.custom_linear);
         if (gravity != 0) {
-            customLinear.setLayoutParams(new LayoutParams(MATCH_PARENT, WRAP_CONTENT));
+            customLinear.setLayoutParams(new RelativeLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
             view.setGravity(gravity);
         }
         customLinear.addView(customView);
@@ -385,6 +386,72 @@ public class NordanSimplyPage {
             activity.getTheme().resolveAttribute(R.attr.selectableItemBackground, outValue, true);
             view.setBackgroundResource(outValue.resourceId);
             ((LinearLayout) pageView.findViewById(R.id.page_provider)).addView(view);
+        });
+        return this;
+    }
+
+    public NordanSimplyPage addExtendableItem(ExtendableElement parElement) {
+        Optional.ofNullable(parElement).ifPresent(element -> {
+            LinearLayout view = (LinearLayout) layoutInflater.inflate(R.layout.extendable_item_view, null);
+            RelativeLayout headerView = view.findViewById(R.id.head_item);
+            MaterialTextView textItem = headerView.findViewById(R.id.item_text);
+            MaterialTextView subTextItem = headerView.findViewById(R.id.item_subtext);
+            ImageView leftSideImage = headerView.findViewById(R.id.image_left);
+            ImageView rightSideImage = headerView.findViewById(R.id.image_right);
+            textItem.setText(element.getTitle());
+            Optional.of(element.getRightSideIconDrawable())
+                    .filter(value -> value != 0)
+                    .ifPresent(resId -> {
+                        Glide.with(activity).load(resId).into(rightSideImage);
+                        rightSideImage.setVisibility(View.VISIBLE);
+                    });
+            Optional.of(element.getRightSideIconDrawable())
+                    .filter(value -> value != 0)
+                    .map(resId -> {
+                        leftSideImage.setVisibility(View.VISIBLE);
+                        return Glide.with(activity).load(resId).into(leftSideImage);
+                    }).orElseGet(() -> Glide.with(activity).load(R.drawable.arrow_down).into(leftSideImage));
+            Optional.ofNullable(element.getSubText())
+                    .filter(subText -> !subText.isEmpty())
+                    .ifPresent(subText -> {
+                        subTextItem.setText(subText);
+                        subTextItem.setVisibility(View.VISIBLE);
+                    });
+            Optional.ofNullable(element.getExtendView()).ifPresent(extendView -> {
+                extendView.setVisibility(View.GONE);
+                view.addView(extendView);
+            });
+            element.getExtendView().setVisibility(View.GONE);
+            headerView.setOnClickListener(v -> {
+                TransitionManager.endTransitions(pageView.findViewById(R.id.page_provider));
+                if (element.getExtendView().getVisibility() == View.GONE) {
+                    element.getExtendView().setVisibility(View.VISIBLE);
+                    Glide.with(activity).load(R.drawable.arrow_up).into(leftSideImage);
+                    TransitionManager.beginDelayedTransition(pageView.findViewById(R.id.page_provider), new ChangeBounds());
+                    for (int i = 1; i < view.getChildCount(); i++) {
+                        view.getChildAt(i).setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    element.getExtendView().setVisibility(View.GONE);
+                    Glide.with(activity).load(R.drawable.arrow_down).into(leftSideImage);
+                    TransitionManager.beginDelayedTransition(pageView.findViewById(R.id.page_provider));
+                    for (int i = 1; i < view.getChildCount(); i++) {
+                        View childAt = view.getChildAt(i);
+                        childAt.setVisibility(View.GONE);
+                    }
+                }
+            });
+            if (element.getGravity() != 0) {
+                int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 64, activity.getResources().getDisplayMetrics());
+                RelativeLayout.LayoutParams viewParams = new RelativeLayout.LayoutParams(MATCH_PARENT, px);
+                RelativeLayout.LayoutParams textParams = new RelativeLayout.LayoutParams(WRAP_CONTENT,
+                        WRAP_CONTENT);
+                view.setLayoutParams(viewParams);
+                view.setGravity(element.getGravity());
+                textItem.setLayoutParams(textParams);
+            }
+            ((LinearLayout) pageView.findViewById(R.id.page_provider)).addView(view);
+            _addSeparator();
         });
         return this;
     }
